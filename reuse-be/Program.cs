@@ -1,6 +1,12 @@
+using reuse_be.Models;
+using reuse_be.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<DatabaseSettings>(
+    builder.Configuration.GetSection("ReuseDatabase"));
+builder.Services.AddSingleton<ProductsService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

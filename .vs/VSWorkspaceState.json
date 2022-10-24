@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\reuse-be",
+    "\\reuse-be\\Models"
   ],
   "PreviewInSolutionExplorer": false
 }
