@@ -1,12 +1,18 @@
 import React from 'react';
 import { Text, View, ImageBackground, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Images } from '../../environment/Images';
 
 import styles from './WelcomeScreen.styles';
+import { Routes } from '../../app/navigation';
 
 export function WelcomeScreen() {
-    function handleTitlePress() {}
+    const navigation = useNavigation();
+
+    function handleTitlePress() {
+        navigation.navigate(Routes.Login);
+    }
 
     function handleSignInPress() {}
 
