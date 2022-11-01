@@ -1,14 +1,28 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { WelcomeScreen } from '../screens/welcome';
+import { LoginScreen } from '../screens/Login';
+import { Routes } from './navigation';
+
+const RootStack = createNativeStackNavigator();
 
 export function App() {
     return (
-        <View
-            style={[
-                { backgroundColor: 'white', height: '100%', alignItems: 'center', marginTop: 400 }
-            ]}
-        >
-            <Text style={[{ color: 'red' }]}>Hello</Text>
-        </View>
+        <NavigationContainer>
+            <SafeAreaProvider>
+                <RootStack.Navigator
+                    screenOptions={{
+                        animationTypeForReplace: 'push',
+                        headerShown: false
+                    }}
+                >
+                    <RootStack.Screen name={Routes.Welcome} children={() => <WelcomeScreen />} />
+                    <RootStack.Screen name={Routes.Login} children={() => <LoginScreen />} />
+                </RootStack.Navigator>
+            </SafeAreaProvider>
+        </NavigationContainer>
     );
 }
