@@ -26,6 +26,15 @@ export function getContainerStateStyles(state: InputState) {
     return containerStateStyles[state];
 }
 
+export function getContainerSizeStyles() {
+    return {
+        borderWidth: 1,
+        borderRadius: 8,
+        height: 48,
+        width: '100%'
+    };
+}
+
 export default StyleSheet.create({
     container: {
         flexDirection: 'row',
@@ -40,6 +49,9 @@ export default StyleSheet.create({
     },
     input: {
         borderWidth: 0,
-        width: '100%'
+        width: '100%',
+        alignItems: 'center',
+        paddingTop: 15,
+        paddingLeft: 8
     }
 });
