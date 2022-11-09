@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Pressable, TextInput, View, StyleProp, ViewStyle } from 'react-native';
 
 import { InputProps, InputState } from './Input.types';
 
-import { getContainerStateStyles } from './Input.style';
+import styles, { getContainerStateStyles, getContainerSizeStyles } from './Input.style';
 
 function getInputState(disabled = false, error = false, focus = false) {
     let state = InputState.Default;
@@ -26,7 +26,20 @@ function getInputState(disabled = false, error = false, focus = false) {
 export const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttributes<TextInput>> =
     React.forwardRef<TextInput, InputProps>(
         (
-            { style, disabled, error, onBlur, onChangeText, onFocus, onPress, onSubmit },
+            {
+                style,
+                disabled,
+                description,
+                error,
+                onBlur,
+                onChangeText,
+                onFocus,
+                onPress,
+                onSubmit,
+                returnKeyType,
+                label,
+                focused = false
+            },
             forwardedRef
         ) => {
             const inputRef = useRef<TextInput>(null);
@@ -34,10 +47,15 @@ export const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttrib
 
             const [isFocused, setIsFocused] = useState(false);
 
+            useEffect(() => {
+                setIsFocused(focused);
+            }, [focused]);
+
             function getContainerStyles() {
                 const state = getInputState(disabled, error, isFocused);
                 const containerStyles: StyleProp<ViewStyle> = [
                     getContainerStateStyles(state),
+                    getContainerSizeStyles(),
                     style
                 ];
 
@@ -77,7 +95,10 @@ export const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttrib
                             onFocus={handleFocus}
                             onSubmitEditing={onSubmit}
                             onPressIn={onPress}
+                            style={styles.input}
                             onChangeText={onChangeText}
+                            placeholder={label}
+                            returnKeyType={returnKeyType}
                         />
                     </View>
                 </Pressable>

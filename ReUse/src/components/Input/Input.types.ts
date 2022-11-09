@@ -7,6 +7,15 @@ export enum InputState {
     Focus
 }
 
+export enum ReturnKey {
+    Done = 'done',
+    Next = 'next',
+    Search = 'search',
+    Send = 'send',
+    Go = 'go',
+    Default = 'default'
+}
+
 export interface InputProps {
     autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
     blurOnSubmit?: boolean;
@@ -20,6 +29,7 @@ export interface InputProps {
     password?: boolean;
     style?: StyleProp<ViewStyle>;
     value: string;
+    returnKeyType?: ReturnKey;
     onChangeText?: (text: string) => void;
     onBlur?: () => void;
     onFocus?: () => void;

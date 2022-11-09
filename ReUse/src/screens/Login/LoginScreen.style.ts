@@ -13,10 +13,14 @@ export default StyleSheet.create({
         fontWeight: '600',
         fontStyle: 'italic',
         color: '#DBCAAA',
-        marginTop: 24
+        marginTop: 24,
+        marginBottom: 72
     },
     imageStyle: {
         height: '100%'
+    },
+    input: {
+        marginBottom: 24
     },
     content: {
         position: 'absolute',
@@ -32,6 +36,10 @@ export default StyleSheet.create({
             height: 3
         },
         shadowRadius: 10,
-        shadowOpacity: 1.0
+        shadowOpacity: 1.0,
+        paddingHorizontal: 24
+    },
+    signUp: {
+        alignItems: 'flex-end'
     }
 });
