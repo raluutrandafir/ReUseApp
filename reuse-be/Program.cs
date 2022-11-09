@@ -1,11 +1,18 @@
+using AspNetCore.Identity.MongoDbCore.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using reuse_be.Models;
 using reuse_be.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+BsonSerializer.RegisterSerializer(new GuidSerializer(MongoDB.Bson.BsonType.String));
+BsonSerializer.RegisterSerializer(new DateTimeSerializer(MongoDB.Bson.BsonType.String));
+BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(MongoDB.Bson.BsonType.String));
 
 // Add services to the container.
 builder.Services.Configure<DatabaseSettings>(
@@ -13,8 +20,10 @@ builder.Services.Configure<DatabaseSettings>(
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("JwtKey"));
 builder.Services.AddSingleton<ProductsService>();
 builder.Services.AddSingleton<UserService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {

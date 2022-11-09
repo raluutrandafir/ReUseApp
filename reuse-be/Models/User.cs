@@ -1,10 +1,11 @@
-﻿using MongoDB.Bson;
+﻿using AspNetCore.Identity.MongoDbCore.Models;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace reuse_be.Models
 {
     [BsonIgnoreExtraElements]
-    public class User
+    public class User : MongoIdentityUser<Guid>
     {
         [BsonIgnore]
         public string Id { get; set; }

@@ -2,7 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\reuse-be",
-    "\\reuse-be\\Models"
+    "\\reuse-be\\Controllers",
+    "\\reuse-be\\Data",
+    "\\reuse-be\\Models",
+    "\\reuse-be\\Properties"
   ],
   "PreviewInSolutionExplorer": false
 }
