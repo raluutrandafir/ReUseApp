@@ -1,4 +1,4 @@
-﻿namespace reuse_be.Models
+﻿namespace reuse_be.Data
 {
     public class DatabaseSettings
     {

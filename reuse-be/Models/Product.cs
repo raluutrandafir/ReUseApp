@@ -6,7 +6,6 @@ namespace reuse_be.Models
     [BsonIgnoreExtraElements]
     public class Product
     {
-
         //[BsonRepresentation(BsonType.ObjectId)]
         [BsonIgnore]
         public string Id { get; set; }

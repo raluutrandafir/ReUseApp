@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using reuse_be.Models;
+using reuse_be.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -11,15 +12,17 @@ namespace reuse_be.Services
     public class UserService
     {
         private readonly IMongoCollection<User> _usersCollection;
+        private readonly IConfiguration configurationAccessor; 
 
         private readonly string key;
         public UserService(
             IOptions<DatabaseSettings> databaseSettings, IConfiguration configuration)
         {
+            configurationAccessor = configuration;
             var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
             _usersCollection = mongoDatabase.GetCollection<User>(databaseSettings.Value.UsersCollectionName);
-            key = configuration.GetSection("JwtKey").ToString();
+            key = configurationAccessor.GetSection("JwtKey").ToString();
 
         }
 
