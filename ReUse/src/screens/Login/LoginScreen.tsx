@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
-import { Text, ImageBackground, Pressable, Keyboard, TextInput } from 'react-native';
+import { Text, ImageBackground, Pressable, Keyboard, TextInput, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useForm, Controller } from 'react-hook-form';
+import Lottie from 'lottie-react-native';
 
 import { Input } from '../../components';
 import { Images } from '../../environment/Images';
@@ -73,7 +74,16 @@ export function LoginScreen() {
                     style={[styles.content, animatedStyle]}
                     onPress={handleOutsidePress}
                 >
-                    <Text style={styles.tile}>Welcome</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.tile}>Welcome</Text>
+                        <Lottie
+                            loop={true}
+                            style={styles.animation}
+                            autoPlay
+                            renderMode="AUTOMATIC"
+                            source={require('../../environment/welcome.json')}
+                        />
+                    </View>
                     <Controller
                         control={control}
                         name="email"
@@ -131,6 +141,9 @@ export function LoginScreen() {
                             />
                         )}
                     />
+                    <Pressable style={styles.loginButton}>
+                        <Text style={styles.button}>Log In</Text>
+                    </Pressable>
                     <Text style={{ color: '#ABB28D' }}>
                         Don't have an account yet?
                         <Text style={{ fontWeight: '800' }} onPress={() => console.log('Sign In')}>

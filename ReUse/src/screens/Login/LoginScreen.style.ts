@@ -14,7 +14,25 @@ export default StyleSheet.create({
         fontStyle: 'italic',
         color: '#DBCAAA',
         marginTop: 24,
-        marginBottom: 72
+        marginBottom: 48
+    },
+    loginButton: {
+        backgroundColor: '#DBCAAA',
+        width: 148,
+        borderRadius: 20,
+        height: 40,
+        alignItems: 'center',
+        marginBottom: 80
+    },
+    button: {
+        fontSize: 18,
+        paddingTop: 10
+    },
+    animation: {
+        marginTop: 2,
+        marginLeft: 2,
+        height: 48,
+        width: 48
     },
     imageStyle: {
         height: '100%'
