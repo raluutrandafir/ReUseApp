@@ -6,6 +6,7 @@ using reuse_be.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using reuse_be.DTO;
 
 namespace reuse_be.Services
 {
@@ -36,7 +37,7 @@ namespace reuse_be.Services
 
         public string AuthenticateUser(string email, string password)
         {
-            var user = this._usersCollection.Find(_ => _.Email == email && _.Password == password).FirstOrDefault();
+            UserDTO user = this._usersCollection.Find(_ => _.Email == email && _.Password == password).FirstOrDefault();
             if (user == null)
                 return null;
             var tokenHandler = new JwtSecurityTokenHandler();

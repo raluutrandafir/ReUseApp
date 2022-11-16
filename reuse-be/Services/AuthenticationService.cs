@@ -22,7 +22,7 @@ namespace reuse_be.Services
 
         }
 
-        public Task<User> Register(User registerRequest)
+        public Task<User> Register(RegisterRequest registerRequest)
         {
             User newUser = new User();
             newUser.Email = registerRequest.Email;
@@ -32,6 +32,8 @@ namespace reuse_be.Services
             CreatePasswordHash(registerRequest.Password, out byte[] passwordHash, out byte[] passwordSalt);
             newUser.PasswordHash = passwordHash;
             newUser.PasswordSalt = passwordSalt;
+
+            return Task.FromResult(newUser);
         }
         public Task<User> Login(UserDTO loginRequest)
         {
