@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using reuse_be.Models;
+using reuse_be.Data;
 using reuse_be.Services;
 using System.Text;
 
@@ -20,7 +20,6 @@ builder.Services.Configure<DatabaseSettings>(
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("JwtKey"));
 builder.Services.AddSingleton<ProductsService>();
 builder.Services.AddSingleton<UserService>();
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
@@ -72,6 +71,7 @@ builder.Services.AddAuthentication(options =>
         };
     });
 builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using reuse_be.Models;
+using reuse_be.Data;
 
 namespace reuse_be.Services
 {

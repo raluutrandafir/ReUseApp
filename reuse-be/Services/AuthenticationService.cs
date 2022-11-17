@@ -14,13 +14,13 @@ namespace reuse_be.Services
     public class AuthenticationService
     {
         private readonly IConfiguration configurationAccessor;
-        public AuthenticationService(IConfiguration configuration, IOptions<DatabaseSettings> databaseSettings)
-        {
-            configurationAccessor = configuration;
-            var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
-            var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
+        //public AuthenticationService(IConfiguration configuration, IOptions<DatabaseSettings> databaseSettings)
+        //{
+        //    configurationAccessor = configuration;
+        //    var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
+        //    var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
 
-        }
+        //}
 
         public Task<User> Register(RegisterRequest registerRequest)
         {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using reuse_be.Models;
 using reuse_be.Services;
+using reuse_be.DTO;
 
 namespace reuse_be.Controllers
 {
@@ -10,7 +11,7 @@ namespace reuse_be.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-       
+
         private readonly UserService userService;
         public UserController(UserService _userService)
         {
@@ -19,7 +20,7 @@ namespace reuse_be.Controllers
         [HttpGet]
         public async Task<List<User>> GetUsers()
         {
-             return await userService.GetUsersAsync();
+            return await userService.GetUsersAsync();
         }
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult> GetUser(string id)
@@ -27,22 +28,23 @@ namespace reuse_be.Controllers
             var user = await userService.GetUserAsync(id);
             return Json(user);
         }
+        [AllowAnonymous]
+        [Route("register")]
         [HttpPost]
-        public async Task<ActionResult> PostUser(User user)
+        public async Task<ActionResult> RegisterUser(RegisterRequest user)
         {
-            await userService.CreateUserAsync(user);
+            await userService.RegisterUserAsync(user);
             return Json(user);
         }
-        [AllowAnonymous]
-        [Route("authenticate")]
-        [HttpPost]
-        public ActionResult Login([FromBody] User user)
-        {
-            var token = userService.AuthenticateUser(user.Email, user.Password);
-            if (token == null)
-                return Unauthorized();
-            return Ok(new {token, user});
-        }
-
+        //[AllowAnonymous]
+        //[Route("authenticate")]
+        //[HttpPost]
+        //public ActionResult Login([FromBody] User user)
+        //{
+        //    var token = userService.AuthenticateUser(user.Email, user.Password);
+        //    if (token == null)
+        //        return Unauthorized();
+        //    return Ok(new {token, user});
+        //}
     }
 }
