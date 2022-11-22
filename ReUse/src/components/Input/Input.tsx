@@ -91,6 +91,8 @@ export const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttrib
                     <View>
                         <TextInput
                             ref={ref}
+                            autoCapitalize="none"
+                            inputAccessoryViewID="editor-bar"
                             onBlur={handleBlur}
                             onFocus={handleFocus}
                             onSubmitEditing={onSubmit}

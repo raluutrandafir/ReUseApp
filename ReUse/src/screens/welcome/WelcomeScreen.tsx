@@ -14,7 +14,9 @@ export function WelcomeScreen() {
         navigation.navigate(Routes.Login);
     }
 
-    function handleSignInPress() {}
+    function handleSignInPress() {
+        navigation.navigate(Routes.Login);
+    }
 
     return (
         <View style={styles.screen}>

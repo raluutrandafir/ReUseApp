@@ -3,12 +3,14 @@ import { Text, ImageBackground, Pressable, Keyboard, TextInput, View } from 'rea
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useForm, Controller } from 'react-hook-form';
 import Lottie from 'lottie-react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Input } from '../../components';
 import { Images } from '../../environment/Images';
 
 import styles from './LoginScreen.style';
 import { ReturnKey } from '../../components/Input/Input.types';
+import { Routes } from '../../app/navigation';
 
 interface FormValues {
     email: string;
@@ -24,6 +26,8 @@ export function LoginScreen() {
     const passwordRef = useRef<TextInput>(null);
 
     const driver = useSharedValue(0);
+
+    const navigation = useNavigation();
 
     const {
         control,
@@ -61,6 +65,10 @@ export function LoginScreen() {
 
     function handleOutsidePress() {
         Keyboard.dismiss();
+    }
+
+    function handleSignUpPress() {
+        navigation.navigate(Routes.Register);
     }
 
     return (
@@ -146,7 +154,7 @@ export function LoginScreen() {
                     </Pressable>
                     <Text style={{ color: '#ABB28D' }}>
                         Don't have an account yet?
-                        <Text style={{ fontWeight: '800' }} onPress={() => console.log('Sign In')}>
+                        <Text style={{ fontWeight: '800' }} onPress={handleSignUpPress}>
                             {' '}
                             Sign Up
                         </Text>
