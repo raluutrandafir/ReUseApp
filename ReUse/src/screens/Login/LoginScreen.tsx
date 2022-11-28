@@ -1,13 +1,16 @@
 import React, { useRef } from 'react';
-import { Text, ImageBackground, Pressable, Keyboard, TextInput } from 'react-native';
+import { Text, ImageBackground, Pressable, Keyboard, TextInput, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useForm, Controller } from 'react-hook-form';
+import Lottie from 'lottie-react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Input } from '../../components';
 import { Images } from '../../environment/Images';
 
 import styles from './LoginScreen.style';
 import { ReturnKey } from '../../components/Input/Input.types';
+import { Routes } from '../../app/navigation';
 
 interface FormValues {
     email: string;
@@ -23,6 +26,8 @@ export function LoginScreen() {
     const passwordRef = useRef<TextInput>(null);
 
     const driver = useSharedValue(0);
+
+    const navigation = useNavigation();
 
     const {
         control,
@@ -62,6 +67,10 @@ export function LoginScreen() {
         Keyboard.dismiss();
     }
 
+    function handleSignUpPress() {
+        navigation.navigate(Routes.Register);
+    }
+
     return (
         <Pressable onPress={handleOutsidePress}>
             <ImageBackground
@@ -73,7 +82,16 @@ export function LoginScreen() {
                     style={[styles.content, animatedStyle]}
                     onPress={handleOutsidePress}
                 >
-                    <Text style={styles.tile}>Welcome</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.tile}>Welcome</Text>
+                        <Lottie
+                            loop={true}
+                            style={styles.animation}
+                            autoPlay
+                            renderMode="AUTOMATIC"
+                            source={require('../../environment/welcome.json')}
+                        />
+                    </View>
                     <Controller
                         control={control}
                         name="email"
@@ -131,9 +149,12 @@ export function LoginScreen() {
                             />
                         )}
                     />
+                    <Pressable style={styles.loginButton}>
+                        <Text style={styles.button}>Log In</Text>
+                    </Pressable>
                     <Text style={{ color: '#ABB28D' }}>
                         Don't have an account yet?
-                        <Text style={{ fontWeight: '800' }} onPress={() => console.log('Sign In')}>
+                        <Text style={{ fontWeight: '800' }} onPress={handleSignUpPress}>
                             {' '}
                             Sign Up
                         </Text>
