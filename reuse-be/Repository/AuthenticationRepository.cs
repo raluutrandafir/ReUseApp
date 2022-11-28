@@ -9,19 +9,11 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
-namespace reuse_be.Services
+namespace reuse_be.Repository
 {
-    public class AuthenticationService
+    public class AuthenticationRepository
     {
-        private readonly IConfiguration configurationAccessor;
-        //public AuthenticationService(IConfiguration configuration, IOptions<DatabaseSettings> databaseSettings)
-        //{
-        //    configurationAccessor = configuration;
-        //    var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
-        //    var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
-
-        //}
-
+        private readonly IConfiguration ? configurationAccessor;
         public Task<User> Register(RegisterRequest registerRequest)
         {
             User newUser = new User();
@@ -35,9 +27,18 @@ namespace reuse_be.Services
 
             return Task.FromResult(newUser);
         }
-        public Task<User> Login(UserDTO loginRequest)
+        public bool CheckUserIdentity(User dbUser, UserDTO loginRequest)
         {
-            throw new NotImplementedException();
+            var passwordCheck = VerifyPassword(loginRequest.Password, dbUser.PasswordHash, dbUser.PasswordSalt);
+            if(passwordCheck)
+            {   
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
@@ -46,6 +47,18 @@ namespace reuse_be.Services
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
+        }
+        private bool VerifyPassword(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)); // Create hash using password salt.
+                for (int i = 0; i < computedHash.Length; i++)
+                { // Loop through the byte array
+                    if (computedHash[i] != passwordHash[i]) return false; // if mismatch
+                }
+            }
+            return true; //if no mismatches.
         }
         public Task<string> GenerateToken(User user)
         {

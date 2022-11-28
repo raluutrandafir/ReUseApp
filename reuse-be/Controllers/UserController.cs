@@ -33,18 +33,43 @@ namespace reuse_be.Controllers
         [HttpPost]
         public async Task<ActionResult> RegisterUser(RegisterRequest user)
         {
-            await userService.RegisterUserAsync(user);
-            return Json(user);
+            var registerResponse = await userService.RegisterUserAsync(user);
+            if(registerResponse != null)
+            {
+                if (registerResponse.Equals("Error: Email exists already!"))
+                    return BadRequest("Email already exists!");
+                else
+                    return Json(user);
+
+            }
+            return BadRequest();
         }
-        //[AllowAnonymous]
-        //[Route("authenticate")]
-        //[HttpPost]
-        //public ActionResult Login([FromBody] User user)
-        //{
-        //    var token = userService.AuthenticateUser(user.Email, user.Password);
-        //    if (token == null)
-        //        return Unauthorized();
-        //    return Ok(new {token, user});
-        //}
+        [AllowAnonymous]
+        [Route("authenticate")]
+        [HttpPost]
+        public ActionResult Login([FromBody] UserDTO user)
+        {
+            if(user.Email!= null & user.Password!= null)
+            {
+                var token = userService.AuthenticateUser(user.Email, user.Password);
+                if (token == null)
+                    return Unauthorized();
+                else if (token.Equals("Error: Email"))
+                {
+                    return NotFound("Email");
+                }
+                else if (token.Equals("Error: Password"))
+                {
+                    return NotFound("Password");
+                }
+                else
+                {
+                    return Ok(new { token.Result, user });
+                }
+
+            }
+            return BadRequest();
+            
+        }
     }
 }
