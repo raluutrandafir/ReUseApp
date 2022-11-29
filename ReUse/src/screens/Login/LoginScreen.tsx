@@ -55,6 +55,10 @@ export function LoginScreen() {
         []
     );
 
+    function onSubmit({}: FormValues) {
+        navigation.navigate(Routes.Choose);
+    }
+
     function handleBlur() {
         driver.value = 0;
     }
@@ -92,67 +96,69 @@ export function LoginScreen() {
                             source={require('../../environment/welcome.json')}
                         />
                     </View>
-                    <Controller
-                        control={control}
-                        name="email"
-                        rules={{
-                            required: 'Email Required',
-                            pattern: {
-                                value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                                message: 'Invalid Email'
-                            }
-                        }}
-                        render={({ field: { value, onBlur, onChange } }) => (
-                            <Input
-                                description={errors.email?.message}
-                                error={!!errors.email}
-                                label="Email"
-                                style={styles.input}
-                                returnKeyType={ReturnKey.Next}
-                                value={value}
-                                onBlur={() => {
-                                    handleBlur();
-                                    onBlur();
-                                }}
-                                onChangeText={(text) => onChange(text.replace(/ /g, ''))}
-                                onFocus={handleFocus}
-                                onSubmit={() => {
-                                    if (passwordRef.current) {
-                                        passwordRef.current.focus();
-                                    }
-                                }}
-                            />
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name="password"
-                        rules={{
-                            required: 'Password Required'
-                        }}
-                        render={({ field: { value, onBlur, onChange } }) => (
-                            <Input
-                                description={errors.password?.message}
-                                error={!!errors.password}
-                                label="Password"
-                                password
-                                ref={passwordRef}
-                                returnKeyType={ReturnKey.Done}
-                                style={styles.input}
-                                value={value}
-                                onBlur={() => {
-                                    handleBlur();
-                                    onBlur();
-                                }}
-                                onChangeText={onChange}
-                                onFocus={handleFocus}
-                            />
-                        )}
-                    />
-                    <Pressable style={styles.loginButton}>
+                    <View style={styles.inputContainer}>
+                        <Controller
+                            control={control}
+                            name="email"
+                            rules={{
+                                required: 'Email Required',
+                                pattern: {
+                                    value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                                    message: 'Invalid Email'
+                                }
+                            }}
+                            render={({ field: { value, onBlur, onChange } }) => (
+                                <Input
+                                    description={errors.email?.message}
+                                    error={!!errors.email}
+                                    label="Email"
+                                    style={styles.input}
+                                    returnKeyType={ReturnKey.Next}
+                                    value={value}
+                                    onBlur={() => {
+                                        handleBlur();
+                                        onBlur();
+                                    }}
+                                    onChangeText={(text) => onChange(text.replace(/ /g, ''))}
+                                    onFocus={handleFocus}
+                                    onSubmit={() => {
+                                        if (passwordRef.current) {
+                                            passwordRef.current.focus();
+                                        }
+                                    }}
+                                />
+                            )}
+                        />
+                        <Controller
+                            control={control}
+                            name="password"
+                            rules={{
+                                required: 'Password Required'
+                            }}
+                            render={({ field: { value, onBlur, onChange } }) => (
+                                <Input
+                                    description={errors.password?.message}
+                                    error={!!errors.password}
+                                    label="Password"
+                                    password
+                                    ref={passwordRef}
+                                    returnKeyType={ReturnKey.Done}
+                                    style={styles.input}
+                                    value={value}
+                                    onBlur={() => {
+                                        handleBlur();
+                                        onBlur();
+                                    }}
+                                    onChangeText={onChange}
+                                    onFocus={handleFocus}
+                                />
+                            )}
+                        />
+                    </View>
+                    <Pressable style={styles.loginButton} onPress={handleSubmit(onSubmit)}>
                         <Text style={styles.button}>Log In</Text>
                     </Pressable>
-                    <Text style={{ color: '#ABB28D' }}>
+                    <Text style={{ color: '#ABB28D', position: 'absolute', bottom: 12 }}>
                         Don't have an account yet?
                         <Text style={{ fontWeight: '800' }} onPress={handleSignUpPress}>
                             {' '}

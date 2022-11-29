@@ -37,8 +37,11 @@ export default StyleSheet.create({
     imageStyle: {
         height: '100%'
     },
+    inputContainer: {
+        width: '100%'
+    },
     input: {
-        marginBottom: 24
+        marginBottom: 12
     },
     content: {
         position: 'absolute',

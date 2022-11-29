@@ -20,9 +20,16 @@ export function App() {
                         headerShown: false
                     }}
                 >
-                    <RootStack.Screen name={Routes.Welcome} children={() => <WelcomeScreen />} />
+                    <RootStack.Screen
+                        name={Routes.Welcome}
+                        children={() => <WelcomeScreen type="Welcome" />}
+                    />
                     <RootStack.Screen name={Routes.Login} children={() => <LoginScreen />} />
                     <RootStack.Screen name={Routes.Register} children={() => <RegisterScreen />} />
+                    <RootStack.Screen
+                        name={Routes.Choose}
+                        children={() => <WelcomeScreen type="Choose" />}
+                    />
                 </RootStack.Navigator>
             </SafeAreaProvider>
         </NavigationContainer>

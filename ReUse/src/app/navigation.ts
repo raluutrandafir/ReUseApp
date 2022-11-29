@@ -1,7 +1,8 @@
 export enum Routes {
     Welcome = 'welcome',
     Login = 'login',
-    Register = 'register'
+    Register = 'register',
+    Choose = 'choose'
 }
 
 type DynamicStackParams = Record<string, undefined>;
@@ -9,6 +10,7 @@ type StaticStackParams = {
     [Routes.Welcome]: undefined;
     [Routes.Login]: undefined;
     [Routes.Register]: undefined;
+    [Routes.Choose]: undefined;
 };
 
 export type RootStackParams = DynamicStackParams & StaticStackParams;

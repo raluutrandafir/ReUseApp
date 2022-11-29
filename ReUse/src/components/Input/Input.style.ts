@@ -53,5 +53,10 @@ export default StyleSheet.create({
         alignItems: 'center',
         paddingTop: 15,
         paddingLeft: 8
+    },
+    description: {
+        alignSelf: 'baseline',
+        color: '#EF463B',
+        fontStyle: 'italic'
     }
 });

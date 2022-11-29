@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Pressable, TextInput, View, StyleProp, ViewStyle } from 'react-native';
+import { Pressable, TextInput, View, StyleProp, ViewStyle, Text } from 'react-native';
 
 import { InputProps, InputState } from './Input.types';
 
@@ -87,23 +87,27 @@ export const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttrib
             }
 
             return (
-                <Pressable onPress={handlePress} style={getContainerStyles()}>
-                    <View>
-                        <TextInput
-                            ref={ref}
-                            autoCapitalize="none"
-                            inputAccessoryViewID="editor-bar"
-                            onBlur={handleBlur}
-                            onFocus={handleFocus}
-                            onSubmitEditing={onSubmit}
-                            onPressIn={onPress}
-                            style={styles.input}
-                            onChangeText={onChangeText}
-                            placeholder={label}
-                            returnKeyType={returnKeyType}
-                        />
-                    </View>
-                </Pressable>
+                <View style={{ marginBottom: 12 }}>
+                    <Pressable onPress={handlePress} style={getContainerStyles()}>
+                        <View>
+                            <TextInput
+                                ref={ref}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                inputAccessoryViewID="editor-bar"
+                                onBlur={handleBlur}
+                                onFocus={handleFocus}
+                                onSubmitEditing={onSubmit}
+                                onPressIn={onPress}
+                                style={styles.input}
+                                onChangeText={onChangeText}
+                                placeholder={label}
+                                returnKeyType={returnKeyType}
+                            />
+                        </View>
+                    </Pressable>
+                    {!!description && <Text style={styles.description}>{description}</Text>}
+                </View>
             );
         }
     );

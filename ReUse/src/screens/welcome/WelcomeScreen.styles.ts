@@ -38,5 +38,26 @@ export default StyleSheet.create({
         fontWeight: '600',
         fontSize: 24,
         color: '#ABB28D'
+    },
+    card: {
+        height: 160,
+        width: 170,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#000'
+    },
+    cardsContainer: {
+        position: 'absolute',
+        flexDirection: 'row',
+        width: '100%',
+        bottom: 200,
+        justifyContent: 'space-evenly'
+    },
+    cardTitle: {
+        alignSelf: 'center',
+        fontSize: 16,
+        fontWeight: '600',
+        marginTop: 8,
+        color: '#ABB28D'
     }
 });
