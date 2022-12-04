@@ -43,7 +43,10 @@ export function WelcomeScreen({ type = 'Welcome' }: Props) {
                 </>
             ) : (
                 <View style={styles.cardsContainer}>
-                    <Pressable style={styles.card}>
+                    <Pressable
+                        style={styles.card}
+                        onPress={() => navigation.navigate(Routes.ChooseScreen)}
+                    >
                         <Text style={styles.cardTitle}>Donations</Text>
                         <Lottie
                             loop={true}
@@ -53,7 +56,10 @@ export function WelcomeScreen({ type = 'Welcome' }: Props) {
                             source={require('../../environment/piggy.json')}
                         />
                     </Pressable>
-                    <Pressable style={styles.card}>
+                    <Pressable
+                        style={styles.card}
+                        onPress={() => navigation.navigate(Routes.ChooseScreen)}
+                    >
                         <Text style={styles.cardTitle}>Swaps</Text>
                         <Lottie
                             loop={true}
