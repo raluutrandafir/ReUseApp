@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using reuse_be.Models;
+using reuse_be.Repository;
 using reuse_be.Services;
 
 namespace reuse_be.Controllers
@@ -12,13 +13,21 @@ namespace reuse_be.Controllers
 
         public ProductsController(ProductsService productsService) => _productsService = productsService;
         [HttpGet]
-        public async Task<List<Product>> Get() => await _productsService.GetAsync();
-
+        public async Task<List<Product>> GetProducts()
+        {
+            return await _productsService.GetProductsAsync();
+        }
+        [HttpGet]
+        [Route("seedDb")]
+        public void SeedDbWithMockData()
+        {
+            var seedDb = new SeedDb(_productsService);
+        }
         [HttpPost]
         public async Task<IActionResult> Post(Product newProduct)
         {
-            await _productsService.CreateAsync(newProduct);
-            return CreatedAtAction(nameof(Get), new { id = newProduct.Id }, newProduct);
+            await _productsService.CreateProductAsync(newProduct);
+            return CreatedAtAction(nameof(GetProducts), new { id = newProduct.Id }, newProduct);
         }
     }
 }
