@@ -7,6 +7,9 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
     oprtionsGrid: {
-        marginTop: 96
+        marginTop: 96,
+        width: '100%',
+        alignItems: 'center',
+        flex: 1
     }
 });

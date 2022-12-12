@@ -65,6 +65,8 @@ OptionsGrid.Item = OptionItem;
 const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
-        marginBottom: 48
+        marginBottom: 24,
+        width: '100%',
+        justifyContent: 'space-evenly'
     }
 });
