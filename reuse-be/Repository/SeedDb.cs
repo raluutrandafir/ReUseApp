@@ -21,16 +21,21 @@ namespace reuse_be.Repository
             var accesoriesSubcategory = Subcategory.Accesories.ToString();
 
             var product1 = new Product("Blouse", "Male's blouse, new, size S", donations, clothesSubcategory) ;
-            var product2 = new Product("sHOES", "Male's blouse, new, size 39", swaps, shoesSubcategory);
+            var product2 = new Product("Shoes", "Male's shoes, new, size 39", swaps, shoesSubcategory);
             var product3 = new Product("Blouse", "Male's blouse, new, size S", donations, clothesSubcategory) ;
-            var product4 = new Product("sHOES", "Male's blouse, new, size 39", swaps, shoesSubcategory);
+            var product4 = new Product("Shoes", "Male's shoes, new, size 39", swaps, shoesSubcategory);
+            var product5 = new Product("Shoes", "Male's shoes, new, size 39", swaps, shoesSubcategory);
+            var product6 = new Product("Shoes", "Male's shoes, new, size 39", swaps, shoesSubcategory);
 
             await productsService.CreateProductAsync(product1);
             await productsService.CreateProductAsync(product2);
             await productsService.CreateProductAsync(product3);
             await productsService.CreateProductAsync(product4);
+            await productsService.CreateProductAsync(product5);
+            await productsService.CreateProductAsync(product6);
+
         }
-        
+
 
     }
 }
