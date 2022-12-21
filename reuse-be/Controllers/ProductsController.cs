@@ -29,5 +29,10 @@ namespace reuse_be.Controllers
             await _productsService.CreateProductAsync(newProduct);
             return CreatedAtAction(nameof(GetProducts), new { id = newProduct.Id }, newProduct);
         }
+        [HttpGet]
+        public async Task<List<Product>> GetProductsByCategory(string category)
+        {
+            return await _productsService.GetProductsByCategoryAsync(category);
+        }
     }
 }
