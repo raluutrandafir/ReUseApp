@@ -34,5 +34,10 @@ namespace reuse_be.Controllers
         {
             return await _productsService.GetProductsByCategoryAsync(category);
         }
+        [HttpGet]
+        public async Task<List<Product>> GetProductsBySubategory(string subcategory)
+        {
+            return await _productsService.GetProductsBySubcategoryAsync(subcategory);
+        }
     }
 }

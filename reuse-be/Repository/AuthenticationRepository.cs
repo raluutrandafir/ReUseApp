@@ -18,8 +18,7 @@ namespace reuse_be.Repository
         {
             User newUser = new User();
             newUser.Email = registerRequest.Email;
-            newUser.FirstName = registerRequest.FirstName;
-            newUser.LastName = registerRequest.LastName;
+            newUser.Name = registerRequest.Name;
             newUser.PhoneNumber = registerRequest.PhoneNumber;
             CreatePasswordHash(registerRequest.Password, out byte[] passwordHash, out byte[] passwordSalt);
             newUser.PasswordHash = passwordHash;

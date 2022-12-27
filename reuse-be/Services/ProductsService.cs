@@ -21,6 +21,7 @@ namespace reuse_be.Services
 
         public async Task<Product?> GetProductByIdAsync(string id) => await _productsCollection.Find(x => x.Id==id).FirstOrDefaultAsync();
         public async Task<List<Product>> GetProductsByCategoryAsync(string category) => await _productsCollection.Find(x => x.Category == category).ToListAsync();
+        public async Task<List<Product>> GetProductsBySubcategoryAsync(string subcategory) => await _productsCollection.Find(x => x.Subcategory == subcategory).ToListAsync();
         public async Task CreateProductAsync(Product newProduct) => await _productsCollection.InsertOneAsync(newProduct);
         public async Task UpdateProductAsync(string id, Product updatedProduct) => await _productsCollection.ReplaceOneAsync(x => x.Id == id, updatedProduct);
         public async Task RemoveProductByIdAsync(string id) => await _productsCollection.DeleteOneAsync(x => x.Id==id);
