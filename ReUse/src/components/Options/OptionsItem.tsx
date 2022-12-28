@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, ImageSourcePropType, Text } from 'react-native';
+import { ImageBackground, StyleSheet, ImageSourcePropType, Text, Pressable } from 'react-native';
 
 type Options = {
     id: number;
@@ -9,14 +9,19 @@ type Options = {
 
 export interface OptionItemProps<D> {
     data: Options;
+    onPress: () => void;
 }
 
-export function OptionItem<D>({ data }: OptionItemProps<D>) {
+export function OptionItem<D>({ data, onPress }: OptionItemProps<D>) {
+    function handlePress() {
+        onPress();
+    }
+
     return (
-        <View style={styles.container}>
+        <Pressable onPress={handlePress} style={styles.container}>
             <ImageBackground style={styles.image} source={data.imageSrc} />
             <Text style={styles.text}>{data.externalId}</Text>
-        </View>
+        </Pressable>
     );
 }
 

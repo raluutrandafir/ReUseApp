@@ -1,10 +1,12 @@
 import React from 'react';
 import { ImageSourcePropType, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { OptionsGrid } from '../../components/Options';
 import { Images } from '../../environment/Images';
 
 import styles from './ChooseScreen.style';
+import { Routes } from '../../app/navigation';
 
 type Options = {
     id: number;
@@ -31,6 +33,12 @@ const OPTIONS: Options[] = [
 ];
 
 export function ChooseScreen() {
+    const navigation = useNavigation();
+
+    function handlePress() {
+        navigation.navigate(Routes.ProductScreen);
+    }
+
     return (
         <View style={styles.screen}>
             <OptionsGrid
@@ -38,7 +46,7 @@ export function ChooseScreen() {
                 itemsPerRow={3}
                 style={styles.oprtionsGrid}
                 item={(option) => {
-                    return <OptionsGrid.Item data={option} />;
+                    return <OptionsGrid.Item data={option} onPress={handlePress} />;
                 }}
             />
         </View>

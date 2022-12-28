@@ -8,6 +8,7 @@ import { LoginScreen } from '../screens/Login';
 import { RegisterScreen } from '../screens/Register';
 import { Routes } from './navigation';
 import { ChooseScreen } from '../screens/Choose';
+import { ProductScreen } from '../screens/ProductScreen/ProductScreen';
 
 const RootStack = createNativeStackNavigator();
 
@@ -34,6 +35,10 @@ export function App() {
                     <RootStack.Screen
                         name={Routes.ChooseScreen}
                         children={() => <ChooseScreen />}
+                    />
+                    <RootStack.Screen
+                        name={Routes.ProductScreen}
+                        children={() => <ProductScreen />}
                     />
                 </RootStack.Navigator>
             </SafeAreaProvider>
