@@ -10,5 +10,9 @@
             this.Email = Email;
             this.Password = Password; 
         }
+        public UserDTO()
+        {
+
+        }
     }
 }

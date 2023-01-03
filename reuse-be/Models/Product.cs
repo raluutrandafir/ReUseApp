@@ -1,12 +1,15 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace reuse_be.Models
 {
     [BsonIgnoreExtraElements]
     public class Product
     {
-        [BsonIgnore]
+        
+        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
         public string? Id { get; set; }
 
         [BsonElement("title")]
@@ -41,6 +44,19 @@ namespace reuse_be.Models
             Subcategory = _subcategory;
             isAvailable = _isAvailable;
             Image = _image;
+        }
+        public Product(string _title, string _description, string _category, string _subcategory, bool _isAvailable, byte[] _image)
+        { 
+            Title = _title;
+            Description = _description;
+            Category = _category;
+            Subcategory = _subcategory;
+            isAvailable = _isAvailable;
+            Image = _image;
+        }
+        public Product()
+        {
+
         }
 
     }

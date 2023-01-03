@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using reuse_be.Models;
 using reuse_be.Repository;
@@ -7,37 +8,56 @@ namespace reuse_be.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+
+    // must be commented 
+    [AllowAnonymous]
     public class ProductsController : ControllerBase
     {
         private readonly ProductsService _productsService;
 
         public ProductsController(ProductsService productsService) => _productsService = productsService;
+
+       
         [HttpGet]
+        [Route("GetProducts")]
         public async Task<List<Product>> GetProducts()
         {
             return await _productsService.GetProductsAsync();
         }
+
         [HttpGet]
         [Route("seedDb")]
         public void SeedDbWithMockData()
         {
             var seedDb = new SeedDb(_productsService);
         }
+
         [HttpPost]
-        public async Task<IActionResult> Post(Product newProduct)
+        [Route("InsertProduct")]
+        public async Task<Product> InsertProduct(Product newProduct)
         {
-            await _productsService.CreateProductAsync(newProduct);
-            return CreatedAtAction(nameof(GetProducts), new { id = newProduct.Id }, newProduct);
+            return await _productsService.InsertProductAsync(newProduct);
+            //return CreatedAtAction(nameof(GetProducts), new { id = newProduct.Id }, newProduct);
         }
+
         [HttpGet]
-        public async Task<List<Product>> GetProductsByCategory(string category)
+        [Route("GetProductsByCategory")]
+        public async Task<IActionResult> GetProductsByCategory(string category)
         {
-            return await _productsService.GetProductsByCategoryAsync(category);
+            var response = await _productsService.GetProductsByCategoryAsync(category.ToLower());
+            if (response == null)
+                return BadRequest();
+            return Ok(response);
         }
+
         [HttpGet]
-        public async Task<List<Product>> GetProductsBySubategory(string subcategory)
+        [Route("GetProductsBySubcategory")]
+        public async Task<IActionResult> GetProductsBySubategory(string subcategory)
         {
-            return await _productsService.GetProductsBySubcategoryAsync(subcategory);
+            var response = await _productsService.GetProductsBySubcategoryAsync(subcategory.ToLower());
+            if (response == null)
+                return BadRequest();
+            return Ok(response);
         }
     }
 }
