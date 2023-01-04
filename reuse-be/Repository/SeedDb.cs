@@ -14,18 +14,26 @@ namespace reuse_be.Repository
 
         public async void createMockProductsToDb()
         {
+            var userId = "63b582e21d4c50019372afd2"; 
             var donations = Category.Donations.ToString();
             var swaps = Category.Swaps.ToString();
             var clothesSubcategory = Subcategory.Clothes.ToString();
             var shoesSubcategory = Subcategory.Shoes.ToString();
             var accesoriesSubcategory = Subcategory.Accesories.ToString();
+            var homeAppliances = Subcategory.HomeAppliances.ToString();
 
-            var product1 = new Product("Blouse", "Male's blouse, new, size S", donations, clothesSubcategory) ;
-            var product2 = new Product("Shoes", "Male's shoes, new, size 39", swaps, shoesSubcategory);
-            var product3 = new Product("Blouse", "Male's blouse, new, size S", donations, clothesSubcategory) ;
-            var product4 = new Product("Shoes", "Male's shoes, new, size 39", swaps, shoesSubcategory);
-            var product5 = new Product("Shoes", "Male's shoes, new, size 39", swaps, shoesSubcategory);
-            var product6 = new Product("Shoes", "Male's shoes, new, size 39", swaps, shoesSubcategory);
+            var gardenSubcategory = Subcategory.Garden.ToString();
+
+            var product1 = new Product("Blouse", "Male's blouse, new, size S", donations, clothesSubcategory,true, null, userId);
+            var product2 = new Product("Shoes", "Male's shoes, new, size 39", swaps, clothesSubcategory, true, null, userId);
+
+            var product3 = new Product("Blouse", "Women's dress, size S", donations, clothesSubcategory, true, null, userId) ;
+
+            var product4 = new Product("Ring", "Indigen model ring, new, size 55", swaps, accesoriesSubcategory, true, null, userId);
+
+            var product5 = new Product("Wahing amchine", "7,6 kg washing machine, new, year 2020", donations, homeAppliances, true, null, userId);
+
+            var product6 = new Product("Red roses", "Red roses in a poth", swaps, gardenSubcategory, true, null, userId);
 
             await productsService.CreateProductAsync(product1);
             await productsService.CreateProductAsync(product2);

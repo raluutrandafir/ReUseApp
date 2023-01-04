@@ -59,5 +59,41 @@ namespace reuse_be.Controllers
                 return BadRequest();
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("GetRequests")]
+        public async Task<List<Request>> GetUserRequests(string userId)
+        {
+            return await _productsService.GetRequestByUserIdAsync(userId);
+        }
+        [HttpGet]
+        [Route("GetMessages")]
+        public async Task<List<Request>> GetUserMessages(string userId)
+        {
+            return await _productsService.GetRequestByUserIdAsync(userId);
+        }
+
+
+        //[HttpGet]
+        //[Route("seedDb")]
+        //public void SeedDbWithMockData()
+        //{
+        //    var seedDb = new SeedDb(_requestsService);
+        //}
+
+
+        [HttpPost]
+        [Route("AddRequest")]
+
+        public async Task<IActionResult> AddUserRequest(Request request)
+        {
+            if (request.ProductId == null || request.RequestorId == null || request.OwnerId == null)
+                return BadRequest();
+            var response = await _productsService.AddUserRequest(request);
+            return Ok(response);
+        }
+
+
+
     }
 }

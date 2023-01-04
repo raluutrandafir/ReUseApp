@@ -28,14 +28,19 @@ namespace reuse_be.Models
         public bool isAvailable { get; set; } = true;
         [BsonElement]
         public byte[]? Image  { get; set; } = new byte[0];
-        public Product(string _title, string _description, string _category, string _subcategory)
-        {
-            Title = _title;
-            Description = _description;
-            Category = _category;
-            Subcategory = _subcategory;
-        }
-        public Product(string _id, string _title, string _description, string _category, string _subcategory, bool _isAvailable, byte[] _image)
+
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? OwnerId { get; set; }
+
+        //public Product(string _title, string _description, string _category, string _subcategory, string _ownerId)
+        //{
+        //    Title = _title;
+        //    Description = _description;
+        //    Category = _category;
+        //    Subcategory = _subcategory;
+        //    OwnerId = _ownerId;
+        //}
+        public Product(string _id, string _title, string _description, string _category, string _subcategory, bool _isAvailable, byte[] _image, string _ownerId)
         {
             Id = _id;
             Title = _title;
@@ -44,8 +49,9 @@ namespace reuse_be.Models
             Subcategory = _subcategory;
             isAvailable = _isAvailable;
             Image = _image;
+            OwnerId = _ownerId;
         }
-        public Product(string _title, string _description, string _category, string _subcategory, bool _isAvailable, byte[] _image)
+        public Product(string _title, string _description, string _category, string _subcategory, bool _isAvailable, byte[] _image, string _ownerId)
         { 
             Title = _title;
             Description = _description;
@@ -53,6 +59,7 @@ namespace reuse_be.Models
             Subcategory = _subcategory;
             isAvailable = _isAvailable;
             Image = _image;
+            OwnerId = _ownerId;
         }
         public Product()
         {

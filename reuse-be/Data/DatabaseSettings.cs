@@ -9,5 +9,7 @@
 
         public string ProductsCollectionName { get; set; } = null!;
         public string UsersCollectionName { get; set; } = null!;
+
+        public string RequestsCollectionName { get; set; } = null!;
     }
 }

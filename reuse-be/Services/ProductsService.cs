@@ -10,21 +10,24 @@ namespace reuse_be.Services
     public class ProductsService
     {
         private readonly IMongoCollection<Product> _productsCollection;
+        private readonly IMongoCollection<Request> _requestsCollection;
+
         public ProductsService(
             IOptions<DatabaseSettings> databaseSettings)
         {
             var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
             _productsCollection = mongoDatabase.GetCollection<Product>(databaseSettings.Value.ProductsCollectionName);
+            _requestsCollection = mongoDatabase.GetCollection<Request>(databaseSettings.Value.RequestsCollectionName);
         }
-
+        
         public async Task<List<Product>> GetProductsAsync() => await _productsCollection.Find(_ =>true).ToListAsync();
 
         public async Task<Product?> GetProductByIdAsync(string id) => await _productsCollection.Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
         public async Task<List<Product>> ?GetProductsByCategoryAsync(string category) {
 
             var categoryString = GetCategory(category);
-            if (categoryString.Equals(String.Empty))
+            if (categoryString.Equals(String.Empty)) 
             {
                 return null;
             }
@@ -51,6 +54,32 @@ namespace reuse_be.Services
                 return await Task.FromResult(product);
             }
             return null;
+        }
+
+        public async Task<List<Request>> GetRequestsAsync() => await _requestsCollection.Find(_ => true).ToListAsync();
+
+        public async Task<Request?> GetRequestByIdAsync(string id) => await _requestsCollection.Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+        public async Task<List<Request>?> GetRequestByUserIdAsync(string userId) => await _requestsCollection.Find(x => x.RequestorId.Equals(userId)).ToListAsync();
+        public async Task<List<Request>?> GetMessagesByUserIdAsync(string userId) => await _requestsCollection.Find(x => x.OwnerId.Equals(userId)).ToListAsync();
+
+        public async Task CreateRequestAsync(Request newRequest) => await _requestsCollection.InsertOneAsync(newRequest);
+        public async Task UpdateRequestByIdAsync(string id, Request updatedRequest) => await _requestsCollection.ReplaceOneAsync(x => x.Id.Equals(id), updatedRequest);
+        public async Task RemoveRequestByIdAsync(string id) => await _requestsCollection.DeleteOneAsync(x => x.Id.Equals(id));
+
+
+        public async Task<Request> AddUserRequest(Request request)
+        {
+            var checkProductExistance = _productsCollection.Find(x => x.Id.Equals(request.ProductId)).FirstOrDefaultAsync();
+            if (checkProductExistance == null)
+                return null;
+            var task = CreateRequestAsync(request);
+            if (task.IsCompleted)
+            {
+                return await Task.FromResult(request);
+                checkProductExistance.Result.isAvailable = false;
+            }
+            return null;
+
         }
 
 
