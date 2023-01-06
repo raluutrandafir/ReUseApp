@@ -5,20 +5,19 @@ import axios from 'axios';
 import { Product } from '../../components/Product';
 
 const mock = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-// 86.123.250.155
+// dotnet run --urls "http://192.168.3.8:5000/"
 export function ProductScreen() {
     async function getProducts() {
-        // const respone = await axios.get('https://86.123.250.155:7289/api/Products/GetProducts');
+        const response = await axios.get('http://192.168.3.8:5000/Products/GetProducts');
 
-        const response = await fetch('http://86.123.250.155:7289/Products/GetProducts', {
-            method: 'GET',
-            headers: {
-                Accept: 'accept: text/plain',
-                'Content-Type': 'application/json'
-            }
-        });
-
-        console.log(response);
+        // const response = await fetch('http://192.168.3.8:5000/Products/GetProducts', {
+        //     method: 'GET',
+        //     headers: {
+        //         Accept: 'accept: text/plain',
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
+        console.log(response.data);
     }
 
     useEffect(() => {

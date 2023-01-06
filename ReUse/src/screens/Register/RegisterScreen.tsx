@@ -23,6 +23,7 @@ import { ReturnKey } from '../../components/Input/Input.types';
 
 import styles from './RegisterScreen.styles';
 import { Routes } from '../../app/navigation';
+import axios from 'axios';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableWithoutFeedback);
@@ -44,9 +45,8 @@ export function RegisterScreen() {
         control,
         formState: { errors },
         handleSubmit,
-        setValue,
-        setError,
-        getValues
+        getValues,
+        reset
     } = useForm<FormValues>({
         defaultValues: {
             email: '',
@@ -83,8 +83,33 @@ export function RegisterScreen() {
         opacity: withTiming(!driver.value ? 1 : 0, { duration: 500 })
     }));
 
-    function onSubmit({ adress, email, name, password, phoneNumber, repeatPassword }: FormValues) {
-        navigation.navigate(Routes.Login);
+    async function onSubmit({
+        adress,
+        email,
+        name,
+        password,
+        phoneNumber,
+        repeatPassword
+    }: FormValues) {
+        console.log(name, adress);
+
+        const data = await axios
+            .post('http://192.168.3.8:5000/User/register', {
+                username: '',
+                password: password,
+                email: email,
+                name: name,
+                phoneNumber: phoneNumber,
+                address: ''
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+        if (data) {
+            navigation.navigate(Routes.Login);
+            reset();
+        }
     }
 
     function handleBlur() {
@@ -184,7 +209,8 @@ export function RegisterScreen() {
                             control={control}
                             name="repeatPassword"
                             rules={{
-                                required: 'Password Required'
+                                required: 'Password Required',
+                                validate: (value) => value === getValues('password')
                             }}
                             render={({ field: { value, onBlur, onChange } }) => (
                                 <Input
