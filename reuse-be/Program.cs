@@ -20,13 +20,14 @@ builder.Services.Configure<DatabaseSettings>(
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("JwtKey"));
 builder.Services.AddSingleton<ProductsService>();
 builder.Services.AddSingleton<UserService>();
+//builder.Services.AddSingleton<RequestsService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    //option.SwaggerDoc("v1", new OpenApiInfo { Title = "reuse", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
