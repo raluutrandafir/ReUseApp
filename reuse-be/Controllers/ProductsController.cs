@@ -92,6 +92,17 @@ namespace reuse_be.Controllers
                 return BadRequest();
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("GetAllProducts")]
+        public async Task<IActionResult> GetAllProducts(string category, string subcategory)
+        {
+            var response = await _productsService.GetProductsByAllAsync(category.ToLower(), subcategory.ToLower());
+            if (response == null)
+                return BadRequest();
+            return Ok(response);
+        }
+
         [HttpGet]
         [Route("GetProductInformationForRequest")]
         public async Task<Product> GetProductInformationForRequest(string productId){

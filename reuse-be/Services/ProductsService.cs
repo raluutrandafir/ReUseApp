@@ -63,6 +63,16 @@ namespace reuse_be.Services
             }
             return await _productsCollection.Find(x => x.Subcategory.Equals(subcategoryString) && x.isAvailable.Equals(true)).ToListAsync();
         }
+        public async Task<List<Product>>? GetProductsByAllAsync(string category, string subcategory)
+        {
+            var subcategoryString = GetSubcategory(subcategory);
+            var categoryString = GetCategory(category);
+            if (subcategoryString.Equals(String.Empty) || categoryString.Equals(String.Empty))
+            {
+                return null;
+            }
+            return await _productsCollection.Find(x => x.Subcategory.Equals(subcategoryString) && x.isAvailable.Equals(true) && x.Category.Equals(categoryString)).ToListAsync();
+        }
         public async Task CreateProductAsync(Product newProduct) => await _productsCollection.InsertOneAsync(newProduct);
         public async Task UpdateProductAsync(string id, Product updatedProduct) => await _productsCollection.ReplaceOneAsync(x => x.Id.Equals(id), updatedProduct);
         public async Task RemoveProductByIdAsync(string id) => await _productsCollection.DeleteOneAsync(x => x.Id.Equals(id));
