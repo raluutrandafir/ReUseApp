@@ -47,11 +47,8 @@ namespace reuse_be.Services
             var registerUser = authRepository.Register(registerRequest);
             if (registerUser != null)
             {
-                var task = CreateUserAsync(registerUser.Result);
-                if (task.IsCompleted)
-                {
-                    return await Task.FromResult(JsonSerializer.Serialize(registerUser));
-                }
+                await CreateUserAsync(registerUser.Result);
+                return await Task.FromResult(JsonSerializer.Serialize(registerUser));
             }
             return null;
         }
