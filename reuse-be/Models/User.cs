@@ -20,8 +20,8 @@ namespace reuse_be.Models
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
 
-        public List<Request> Requests { get; set; } = new List<Request>();
-        public List<Request> Messages { get; set; } = new List<Request> ();
+        //public List<Request> Requests { get; set; } = new List<Request>();
+        //public List<Request> Messages { get; set; } = new List<Request> ();
 
         public User()
         {
