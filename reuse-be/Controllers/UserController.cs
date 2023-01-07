@@ -34,7 +34,7 @@ namespace reuse_be.Controllers
         public async Task<ActionResult> RegisterUser(RegisterRequest user)
         {
             var registerResponse = await userService.RegisterUserAsync(user);
-            if(registerResponse != null)
+            if (registerResponse != null)
             {
                 if (registerResponse.Equals("Error: Email exists already!"))
                     return BadRequest("Email already exists!");
@@ -49,7 +49,7 @@ namespace reuse_be.Controllers
         [HttpPost]
         public ActionResult Login([FromBody] UserDTO user)
         {
-            if(user.Email!= null & user.Password!= null)
+            if (user.Email != null & user.Password != null)
             {
                 var token = userService.AuthenticateUser(user.Email, user.Password);
                 if (token == null)
@@ -69,7 +69,7 @@ namespace reuse_be.Controllers
 
             }
             return BadRequest();
-            
+
         }
     }
 }

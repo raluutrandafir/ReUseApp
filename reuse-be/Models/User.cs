@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 namespace reuse_be.Models
 {
     [BsonIgnoreExtraElements]
-    public class User 
+    public class User
     {
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
@@ -29,5 +29,5 @@ namespace reuse_be.Models
         }
 
     }
-    
+
 }

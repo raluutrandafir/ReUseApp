@@ -13,7 +13,7 @@ namespace reuse_be.Repository
 {
     public class AuthenticationRepository
     {
-        private readonly IConfiguration ? configurationAccessor;
+        private readonly IConfiguration? configurationAccessor;
         public Task<User> Register(RegisterRequest registerRequest)
         {
             User newUser = new User();
@@ -29,15 +29,15 @@ namespace reuse_be.Repository
         public bool CheckUserIdentity(User dbUser, UserDTO loginRequest)
         {
             var passwordCheck = VerifyPassword(loginRequest.Password, dbUser.PasswordHash, dbUser.PasswordSalt);
-            if(passwordCheck)
-            {   
+            if (passwordCheck)
+            {
                 return true;
             }
             else
             {
                 return false;
             }
-            
+
         }
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {

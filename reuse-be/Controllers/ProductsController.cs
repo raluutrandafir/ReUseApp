@@ -18,7 +18,7 @@ namespace reuse_be.Controllers
 
         public ProductsController(ProductsService productsService) => _productsService = productsService;
 
-       
+
         [HttpGet]
         [Route("GetProducts")]
         public async Task<List<Product>> GetProducts()
@@ -141,14 +141,14 @@ namespace reuse_be.Controllers
         {
             if (newProduct == null || ownerId == null)
                 return BadRequest();
-            Product product = new Product(newProduct.Title1,newProduct.Title2, newProduct.Description1, newProduct.Description2, Category.Swaps.ToString(), newProduct.Subcategory, true, newProduct.Image1,newProduct.Image2, ownerId);
+            Product product = new Product(newProduct.Title1, newProduct.Title2, newProduct.Description1, newProduct.Description2, Category.Swaps.ToString(), newProduct.Subcategory, true, newProduct.Image1, newProduct.Image2, ownerId);
             var response = await _productsService.InsertProductAsync(product);
             if (response != null)
                 return Ok(response);
             return BadRequest();
-            
+
         }
-       
+
 
         [HttpPost]
         [Route("AddRequest")]
@@ -166,14 +166,14 @@ namespace reuse_be.Controllers
                 await _productsService.UpdateProductAvailability(request.ProductId, false);
                 return Ok(response);
             }
-            
+
         }
 
         [HttpPost]
         [Route("submitMessageStatus")]
         public async Task<IActionResult> submitMessageStatus(string requestID, bool evaluationStatus)
         {
-            if(requestID == null)
+            if (requestID == null)
                 return BadRequest();
             return Ok();
         }

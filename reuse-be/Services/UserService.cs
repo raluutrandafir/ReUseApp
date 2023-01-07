@@ -15,10 +15,10 @@ namespace reuse_be.Services
     public class UserService
     {
         private readonly IMongoCollection<User> _usersCollection;
-        private readonly IConfiguration ? configurationAccessor;
+        private readonly IConfiguration? configurationAccessor;
         private readonly AuthenticationRepository authRepository = new AuthenticationRepository();
 
-        private readonly string ? key;
+        private readonly string? key;
         public UserService(
             IOptions<DatabaseSettings> databaseSettings, IConfiguration configuration)
         {
@@ -40,7 +40,7 @@ namespace reuse_be.Services
 
         public async Task<string> RegisterUserAsync(RegisterRequest registerRequest)
         {
-            if(_usersCollection.Find(_ => _.Email == registerRequest.Email).FirstOrDefault() != null)
+            if (_usersCollection.Find(_ => _.Email == registerRequest.Email).FirstOrDefault() != null)
             {
                 return await Task.FromResult("Error: Email exists already!");
             }
@@ -55,7 +55,7 @@ namespace reuse_be.Services
         public async Task<string> AuthenticateUser(string email, string password)
         {
             var user = this._usersCollection.Find(_ => _.Email == email).FirstOrDefault();
-            var authenticationToken = String.Empty ;
+            var authenticationToken = String.Empty;
 
             if (user == null)
                 return await Task.FromResult("Error: Email");
@@ -69,7 +69,7 @@ namespace reuse_be.Services
             }
             if (!authenticationToken.Equals(""))
             {
-                 return await Task.FromResult(authenticationToken);
+                return await Task.FromResult(authenticationToken);
             }
             else
             {

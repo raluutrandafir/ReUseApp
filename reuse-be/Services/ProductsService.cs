@@ -20,7 +20,7 @@ namespace reuse_be.Services
             _productsCollection = mongoDatabase.GetCollection<Product>(databaseSettings.Value.ProductsCollectionName);
             _requestsCollection = mongoDatabase.GetCollection<Request>(databaseSettings.Value.RequestsCollectionName);
         }
-        
+
         /// <summary>
         /// returns all the products that are still available
         /// </summary>
@@ -39,10 +39,11 @@ namespace reuse_be.Services
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public async Task<List<Product>> ?GetProductsByCategoryAsync(string category) {
+        public async Task<List<Product>>? GetProductsByCategoryAsync(string category)
+        {
 
             var categoryString = GetCategory(category);
-            if (categoryString.Equals(String.Empty)) 
+            if (categoryString.Equals(String.Empty))
             {
                 return null;
             }
@@ -54,7 +55,7 @@ namespace reuse_be.Services
         /// </summary>
         /// <param name="subcategory"></param>
         /// <returns></returns>
-        public async Task<List<Product>> ?GetProductsBySubcategoryAsync(string subcategory)
+        public async Task<List<Product>>? GetProductsBySubcategoryAsync(string subcategory)
         {
             var subcategoryString = GetSubcategory(subcategory);
             if (subcategoryString.Equals(String.Empty))
@@ -81,10 +82,10 @@ namespace reuse_be.Services
         {
             if (product == null)
                 return null;
-            
+
             await CreateProductAsync(product);
             return await Task.FromResult(product);
-           
+
         }
 
         public async Task<List<Request>> GetRequestsAsync() => await _requestsCollection.Find(_ => true).ToListAsync();
@@ -97,8 +98,8 @@ namespace reuse_be.Services
         public async Task UpdateRequestByIdAsync(string id, Request updatedRequest) => await _requestsCollection.ReplaceOneAsync(x => x.Id.Equals(id), updatedRequest);
         public async Task UpdateProductAvailability(string productId, bool availability)
         {
-           var product = _productsCollection.Find(x => x.Id.Equals(productId)).FirstOrDefaultAsync();
-            if(product != null)
+            var product = _productsCollection.Find(x => x.Id.Equals(productId)).FirstOrDefaultAsync();
+            if (product != null)
             {
                 var newProduct = product.Result;
                 newProduct.isAvailable = availability;
