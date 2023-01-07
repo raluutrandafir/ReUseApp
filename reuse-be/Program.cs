@@ -22,6 +22,7 @@ builder.Services.AddSingleton<ProductsService>();
 builder.Services.AddSingleton<UserService>();
 //builder.Services.AddSingleton<RequestsService>();
 builder.Services.AddControllers();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddEndpointsApiExplorer();

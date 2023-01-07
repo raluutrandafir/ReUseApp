@@ -8,7 +8,7 @@ using reuse_be.Services;
 namespace reuse_be.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
 
     // must be commented 
     [AllowAnonymous]
@@ -45,6 +45,81 @@ namespace reuse_be.Controllers
             return BadRequest();
             //return CreatedAtAction(nameof(GetProducts), new { id = newProduct.Id }, newProduct);
         }
+        [HttpGet]
+        [Route("GetProductsByCategory")]
+        public async Task<ActionResult<List<Product>>> GetProductsByCategory(string category)
+        {
+            if (category == null)
+                return BadRequest();
+            var response = await _productsService.GetProductsByCategoryAsync(category.ToLower());
+            if (response == null)
+                return NotFound();
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetProductsBySubcategory")]
+        public async Task<ActionResult<List<Product>>> GetProductsBySubategory(string subcategory)
+        {
+            if (subcategory == null)
+                return BadRequest();
+            var response = await _productsService.GetProductsBySubcategoryAsync(subcategory.ToLower());
+            if (response == null)
+                return NotFound();
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetAllProducts")]
+        public async Task<ActionResult<List<Product>>> GetAllProducts(string category, string subcategory)
+        {
+            if (category == null || subcategory == null)
+                return BadRequest();
+            var response = await _productsService.GetProductsByAllAsync(category.ToLower(), subcategory.ToLower());
+            if (response == null)
+                return NotFound();
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetProductInformationForRequest")]
+        public async Task<ActionResult<Product>> GetProductInformationForRequest(string productId)
+        {
+            if (productId == null)
+                return BadRequest();
+            var response = await _productsService.GetProductByIdAsync(productId);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetRequests")]
+        public async Task<ActionResult<List<Request>>> GetUserRequests(string userId)
+        {
+            if (userId == null)
+                return BadRequest();
+            return Ok(await _productsService.GetRequestByUserIdAsync(userId));
+        }
+        [HttpGet]
+        [Route("GetMessages")]
+        public async Task<ActionResult<List<Request>>> GetUserMessages(string userId)
+        {
+            if (userId == null)
+                return BadRequest();
+            return Ok(await _productsService.GetMessagesByUserIdAsync(userId));
+        }
+
+        [HttpGet]
+        [Route("getRequestInfo")]
+        public async Task<ActionResult<Request>> getRequestInfo(string requestId)
+        {
+            if (requestId == null)
+                return BadRequest();
+            return Ok(await _productsService.GetRequestByIdAsync(requestId));
+        }
 
 
         [HttpPost]
@@ -73,59 +148,7 @@ namespace reuse_be.Controllers
             return BadRequest();
             
         }
-        [HttpGet]
-        [Route("GetProductsByCategory")]
-        public async Task<IActionResult> GetProductsByCategory(string category)
-        {
-            var response = await _productsService.GetProductsByCategoryAsync(category.ToLower());
-            if (response == null)
-                return BadRequest();
-            return Ok(response);
-        }
-
-        [HttpGet]
-        [Route("GetProductsBySubcategory")]
-        public async Task<IActionResult> GetProductsBySubategory(string subcategory)
-        {
-            var response = await _productsService.GetProductsBySubcategoryAsync(subcategory.ToLower());
-            if (response == null)
-                return BadRequest();
-            return Ok(response);
-        }
-
-        [HttpGet]
-        [Route("GetAllProducts")]
-        public async Task<IActionResult> GetAllProducts(string category, string subcategory)
-        {
-            var response = await _productsService.GetProductsByAllAsync(category.ToLower(), subcategory.ToLower());
-            if (response == null)
-                return BadRequest();
-            return Ok(response);
-        }
-
-        [HttpGet]
-        [Route("GetProductInformationForRequest")]
-        public async Task<Product> GetProductInformationForRequest(string productId){
-            var response = await _productsService.GetProductByIdAsync(productId);
-            if (response == null)
-            {
-                return null;
-            }
-            return response;
-        }
-
-        [HttpGet]
-        [Route("GetRequests")]
-        public async Task<List<Request>> GetUserRequests(string userId)
-        {
-            return await _productsService.GetRequestByUserIdAsync(userId);
-        }
-        [HttpGet]
-        [Route("GetMessages")]
-        public async Task<List<Request>> GetUserMessages(string userId)
-        {
-            return await _productsService.GetMessagesByUserIdAsync(userId);
-        }
+       
 
         [HttpPost]
         [Route("AddRequest")]
@@ -146,7 +169,14 @@ namespace reuse_be.Controllers
             
         }
 
-
+        [HttpPost]
+        [Route("submitMessageStatus")]
+        public async Task<IActionResult> submitMessageStatus(string requestID, bool evaluationStatus)
+        {
+            if(requestID == null)
+                return BadRequest();
+            return Ok();
+        }
 
     }
 }
