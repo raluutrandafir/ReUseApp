@@ -22,6 +22,16 @@ namespace reuse_be.Models
         public string ContactInfo { get; set; }
         public bool EvaluationStatus { get; set; } = false;
 
+        public Request(string productId, string ownerId, string requestorId, string message, string contactInfo, bool evaluationStatus)
+        {
+            ProductId = productId;
+            OwnerId = ownerId;
+            RequestorId = requestorId;
+            Message = message;
+            ContactInfo = contactInfo;
+            EvaluationStatus = evaluationStatus;
+        }
+
 
         public Request(string productId, string ownerId, string requestorId)
         {
@@ -30,11 +40,6 @@ namespace reuse_be.Models
             RequestorId = requestorId;
         }
 
-        public Request(string productId, string ownerId, string requestorId, string message, string contactInfo, bool evaluationStatus) : this(productId, ownerId, requestorId)
-        {
-            Message = message;
-            ContactInfo = contactInfo;
-            EvaluationStatus = evaluationStatus;
-        }
+
     }
 }

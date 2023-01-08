@@ -154,10 +154,12 @@ namespace reuse_be.Controllers
         [Route("AddRequest")]
 
         // when a user clicks the request button, an request is being submitted to the db taht will appear in the user's My requests/My mesagges page
-        public async Task<IActionResult> AddUserRequest(Request request)
+        public async Task<IActionResult> AddUserRequest(RequestDTO requestDto)
         {
-            if (request.ProductId == null || request.RequestorId == null || request.OwnerId == null)
+            if (requestDto.ProductId == null || requestDto.RequestorId == null || requestDto.OwnerId == null)
                 return BadRequest();
+            
+            var request = new Request(requestDto.ProductId, requestDto.OwnerId, requestDto.RequestorId, requestDto.Message, requestDto.ContactInfo, requestDto.EvaluationStatus);
             var response = await _productsService.AddUserRequest(request);
             if (response == null)
                 return BadRequest();
@@ -174,8 +176,20 @@ namespace reuse_be.Controllers
         public async Task<IActionResult> submitMessageStatus(string requestID, bool evaluationStatus)
         {
             if (requestID == null)
-                return BadRequest();
-            return Ok();
+                return BadRequest("Request Id is null!");
+
+            var dbRequest = await _productsService.GetRequestByIdAsync(requestID);
+
+            if (dbRequest == null)
+                NotFound("Request Id wrong!");
+            else
+            {
+                var newRequest = dbRequest;
+                newRequest.EvaluationStatus = evaluationStatus;
+                await _productsService.UpdateRequestByIdAsync(requestID, newRequest);
+                return Ok(newRequest);
+            }
+           return BadRequest();
         }
 
     }
