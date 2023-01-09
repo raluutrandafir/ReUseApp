@@ -83,32 +83,24 @@ export function RegisterScreen() {
         opacity: withTiming(!driver.value ? 1 : 0, { duration: 500 })
     }));
 
-    async function onSubmit({
-        adress,
-        email,
-        name,
-        password,
-        phoneNumber,
-        repeatPassword
-    }: FormValues) {
-        console.log(name, adress);
-
+    async function onSubmit({ adress, email, name, password, phoneNumber }: FormValues) {
         const data = await axios
             .post('http://192.168.3.8:5000/User/register', {
-                username: '',
-                password: password,
-                email: email,
-                name: name,
-                phoneNumber: phoneNumber,
-                address: ''
+                Username: name,
+                Password: password,
+                Email: email,
+                Name: name,
+                PhoneNumber: phoneNumber,
+                Address: adress
             })
             .catch((error) => {
                 console.error(error);
             });
 
         if (data) {
-            navigation.navigate(Routes.Login);
             reset();
+            console.log(data);
+            navigation.navigate(Routes.Login);
         }
     }
 

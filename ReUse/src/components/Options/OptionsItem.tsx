@@ -2,7 +2,7 @@ import React from 'react';
 import { ImageBackground, StyleSheet, ImageSourcePropType, Text, Pressable } from 'react-native';
 
 type Options = {
-    id: number;
+    id: string;
     externalId: string;
     imageSrc: ImageSourcePropType;
 };

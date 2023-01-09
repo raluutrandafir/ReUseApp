@@ -6,6 +6,7 @@ import Lottie from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Input } from '../../components';
+import useUser from '../../context/UserContext';
 import { Images } from '../../environment/Images';
 
 import styles from './LoginScreen.style';
@@ -28,6 +29,8 @@ export function LoginScreen() {
     const driver = useSharedValue(0);
 
     const navigation = useNavigation();
+
+    const { loginUser } = useUser();
 
     const {
         control,
@@ -55,8 +58,23 @@ export function LoginScreen() {
         []
     );
 
-    function onSubmit({}: FormValues) {
-        navigation.navigate(Routes.Choose);
+    async function onSubmit({ email, password }: FormValues) {
+        try {
+            // navigation.navigate(Routes.Choose);
+            // let response: any = await loginUser({
+            //     login: email,
+            //     password: password
+            // });
+            // console.log('response ', response);
+            // if (response.error == true) {
+            //     console.log('MUIE');
+            //     return;
+            // }
+
+            navigation.navigate(Routes.Choose);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     function handleBlur() {

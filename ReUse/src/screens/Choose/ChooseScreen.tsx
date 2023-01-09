@@ -1,42 +1,46 @@
 import React from 'react';
 import { ImageSourcePropType, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, RouteProp, useRoute } from '@react-navigation/native';
 
 import { OptionsGrid } from '../../components/Options';
 import { Images } from '../../environment/Images';
 
 import styles from './ChooseScreen.style';
-import { Routes } from '../../app/navigation';
+import { Routes, RootStackParams } from '../../app/navigation';
 
 type Options = {
-    id: number;
+    id: string;
     externalId: string;
     imageSrc: ImageSourcePropType;
 };
 
+export type ChooseScreenRouteType = RouteProp<RootStackParams, Routes.ChooseScreen>;
+
 const OPTIONS: Options[] = [
-    { id: 1, externalId: 'Clothes', imageSrc: Images.Clothes },
-    { id: 2, externalId: 'Shoes', imageSrc: Images.Shoes },
-    { id: 3, externalId: 'Accesories', imageSrc: Images.Accessories },
-    { id: 4, externalId: 'Home Appliances', imageSrc: Images.HomeAppliances },
-    { id: 5, externalId: 'Furniture', imageSrc: Images.Furniture },
-    { id: 6, externalId: 'Home accessories', imageSrc: Images.HomeAccessories },
-    { id: 7, externalId: 'Toys', imageSrc: Images.Toys },
-    { id: 8, externalId: 'Garden', imageSrc: Images.Garden },
-    { id: 9, externalId: 'Baby Products', imageSrc: Images.BabyProducts },
-    { id: 10, externalId: 'Books', imageSrc: Images.Books },
-    { id: 11, externalId: 'School', imageSrc: Images.School },
-    { id: 12, externalId: 'Handmade', imageSrc: Images.Handmade },
-    { id: 13, externalId: 'Auto', imageSrc: Images.Auto },
-    { id: 14, externalId: 'Sports', imageSrc: Images.Sports },
-    { id: 15, externalId: 'Music', imageSrc: Images.Music }
+    { id: 'Clothes', externalId: 'Clothes', imageSrc: Images.Clothes },
+    { id: 'Shoes', externalId: 'Shoes', imageSrc: Images.Shoes },
+    { id: 'Accesories', externalId: 'Accesories', imageSrc: Images.Accessories },
+    { id: 'HomeAppliances', externalId: 'Home Appliances', imageSrc: Images.HomeAppliances },
+    { id: 'Furniture', externalId: 'Furniture', imageSrc: Images.Furniture },
+    { id: 'HomeAccessories', externalId: 'Home accessories', imageSrc: Images.HomeAccessories },
+    { id: 'Toys', externalId: 'Toys', imageSrc: Images.Toys },
+    { id: 'Garden', externalId: 'Garden', imageSrc: Images.Garden },
+    { id: 'BabyProducts', externalId: 'Baby Products', imageSrc: Images.BabyProducts },
+    { id: 'Books', externalId: 'Books', imageSrc: Images.Books },
+    { id: 'School', externalId: 'School', imageSrc: Images.School },
+    { id: 'Handmade', externalId: 'Handmade', imageSrc: Images.Handmade },
+    { id: 'Auto', externalId: 'Auto', imageSrc: Images.Auto },
+    { id: 'Sports', externalId: 'Sports', imageSrc: Images.Sports },
+    { id: 'Music', externalId: 'Music', imageSrc: Images.Music }
 ];
 
 export function ChooseScreen() {
     const navigation = useNavigation();
 
-    function handlePress() {
-        navigation.navigate(Routes.ProductScreen);
+    const route = useRoute<ChooseScreenRouteType>();
+
+    function handlePress(optionId: string) {
+        navigation.navigate(Routes.ProductScreen, { type: route.params.type, optionId: optionId });
     }
 
     return (
@@ -46,7 +50,12 @@ export function ChooseScreen() {
                 itemsPerRow={3}
                 style={styles.oprtionsGrid}
                 item={(option) => {
-                    return <OptionsGrid.Item data={option} onPress={handlePress} />;
+                    return (
+                        <OptionsGrid.Item
+                            data={option}
+                            onPress={() => handlePress(option.externalId)}
+                        />
+                    );
                 }}
             />
         </View>

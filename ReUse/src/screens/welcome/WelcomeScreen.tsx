@@ -45,7 +45,9 @@ export function WelcomeScreen({ type = 'Welcome' }: Props) {
                 <View style={styles.cardsContainer}>
                     <Pressable
                         style={styles.card}
-                        onPress={() => navigation.navigate(Routes.ChooseScreen)}
+                        onPress={() =>
+                            navigation.navigate(Routes.ChooseScreen, { type: 'donations' })
+                        }
                     >
                         <Text style={styles.cardTitle}>Donations</Text>
                         <Lottie
@@ -58,7 +60,7 @@ export function WelcomeScreen({ type = 'Welcome' }: Props) {
                     </Pressable>
                     <Pressable
                         style={styles.card}
-                        onPress={() => navigation.navigate(Routes.ChooseScreen)}
+                        onPress={() => navigation.navigate(Routes.ChooseScreen, { type: 'swaps' })}
                     >
                         <Text style={styles.cardTitle}>Swaps</Text>
                         <Lottie

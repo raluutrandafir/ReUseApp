@@ -13,8 +13,8 @@ type StaticStackParams = {
     [Routes.Login]: undefined;
     [Routes.Register]: undefined;
     [Routes.Choose]: undefined;
-    [Routes.ChooseScreen]: undefined;
-    [Routes.ProductScreen]: undefined;
+    [Routes.ChooseScreen]: { type: 'donations' | 'swaps' };
+    [Routes.ProductScreen]: { type: 'donations' | 'swaps'; optionId: string };
 };
 
 export type RootStackParams = DynamicStackParams & StaticStackParams;
