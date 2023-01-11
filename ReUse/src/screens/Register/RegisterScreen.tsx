@@ -104,6 +104,11 @@ export function RegisterScreen() {
         }
     }
 
+    function handleGoBackPress() {
+        console.log('BA');
+        navigation.goBack();
+    }
+
     function handleBlur() {
         driver.value = 0;
     }
@@ -119,6 +124,12 @@ export function RegisterScreen() {
     return (
         <>
             <View style={styles.screen}>
+                {/* <Pressable
+                    onPress={handleGoBackPress}
+                    style={{ position: 'absolute', top: 40, left: 10 }}
+                >
+                    <Text style={{ fontWeight: '500', fontStyle: 'italic' }}>Go back</Text>
+                </Pressable> */}
                 <Lottie
                     loop={true}
                     style={styles.animation}

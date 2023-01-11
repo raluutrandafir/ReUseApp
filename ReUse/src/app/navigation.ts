@@ -4,7 +4,8 @@ export enum Routes {
     Register = 'register',
     Choose = 'choose',
     ChooseScreen = 'chooseScreen',
-    ProductScreen = 'productScreen'
+    ProductScreen = 'productScreen',
+    Review = 'reviewScreen'
 }
 
 type DynamicStackParams = Record<string, undefined>;
@@ -15,6 +16,7 @@ type StaticStackParams = {
     [Routes.Choose]: undefined;
     [Routes.ChooseScreen]: { type: 'donations' | 'swaps' };
     [Routes.ProductScreen]: { type: 'donations' | 'swaps'; optionId: string };
+    [Routes.Review]: { type?: 'add' | 'message' | 'donation' };
 };
 
 export type RootStackParams = DynamicStackParams & StaticStackParams;

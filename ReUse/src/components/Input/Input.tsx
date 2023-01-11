@@ -37,6 +37,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttrib
                 onPress,
                 onSubmit,
                 returnKeyType,
+                multiline,
                 label,
                 focused = false
             },
@@ -103,6 +104,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttrib
                                 onChangeText={onChangeText}
                                 placeholder={label}
                                 returnKeyType={returnKeyType}
+                                multiline={multiline}
                             />
                         </View>
                     </Pressable>

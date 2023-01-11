@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageSourcePropType, View } from 'react-native';
+import { ImageSourcePropType, View, Pressable, Text } from 'react-native';
 import { useNavigation, RouteProp, useRoute } from '@react-navigation/native';
 
 import { OptionsGrid } from '../../components/Options';
@@ -43,8 +43,18 @@ export function ChooseScreen() {
         navigation.navigate(Routes.ProductScreen, { type: route.params.type, optionId: optionId });
     }
 
+    function handleGoBackPress() {
+        navigation.goBack();
+    }
+
     return (
         <View style={styles.screen}>
+            <Pressable
+                onPress={handleGoBackPress}
+                style={{ position: 'absolute', top: 40, left: 10 }}
+            >
+                <Text style={{ fontWeight: '500', fontStyle: 'italic' }}>Go back</Text>
+            </Pressable>
             <OptionsGrid
                 data={OPTIONS}
                 itemsPerRow={3}

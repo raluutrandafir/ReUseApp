@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 import { WelcomeScreen } from '../screens/welcome';
 import { LoginScreen } from '../screens/Login';
@@ -10,6 +11,7 @@ import { Routes } from './navigation';
 import { ChooseScreen } from '../screens/Choose';
 import { ProductScreen } from '../screens/ProductScreen/ProductScreen';
 import { UserProvider } from '../context/UserContext';
+import { ReviewScreen } from '../screens/ReviewScreen/ReviewScreen';
 
 const RootStack = createNativeStackNavigator();
 
@@ -45,9 +47,11 @@ export function App() {
                             name={Routes.ProductScreen}
                             children={() => <ProductScreen />}
                         />
+                        <RootStack.Screen name={Routes.Review} children={() => <ReviewScreen />} />
                     </RootStack.Navigator>
                 </SafeAreaProvider>
             </NavigationContainer>
+            <Toast position="bottom" autoHide visibilityTime={5000} />
         </UserProvider>
     );
 }
