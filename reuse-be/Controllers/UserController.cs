@@ -64,7 +64,8 @@ namespace reuse_be.Controllers
                 }
                 else
                 {
-                    return Ok(new { token.Result, user });
+                    var userId = userService.GetUserByEmailAsync(user.Email);
+                    return Ok(new { token.Result, userId});
                 }
 
             }

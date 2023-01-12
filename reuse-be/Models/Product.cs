@@ -25,10 +25,10 @@ namespace reuse_be.Models
         public string? Description2 { get; set; }
 
         [BsonElement("category")]
-        public string? Category { get; set; }
+        public string Category { get; set; }
 
         [BsonElement("subcategory")]
-        public string? Subcategory { get; set; }
+        public string Subcategory { get; set; }
 
         [BsonElement("isAvailable")]
         public bool isAvailable { get; set; } = true;
