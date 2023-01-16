@@ -112,15 +112,8 @@ namespace reuse_be.Services
 
         public async Task<Request> AddUserRequest(Request request)
         {
-            var checkProductExistance = _productsCollection.Find(x => x.Id.Equals(request.ProductId)).FirstOrDefaultAsync();
-            if (checkProductExistance.Result == null)
-                return null;
-            if (checkProductExistance.Result.isAvailable)
-            {
-                await CreateRequestAsync(request);
-                return await Task.FromResult(request);
-            }
-            return null;
+            await CreateRequestAsync(request);
+            return await Task.FromResult(request);
         }
 
 

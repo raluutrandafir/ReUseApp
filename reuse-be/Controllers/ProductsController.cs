@@ -160,15 +160,22 @@ namespace reuse_be.Controllers
                 return BadRequest();
             
             var request = new Request(requestDto.ProductId, requestDto.OwnerId, requestDto.RequestorId, requestDto.Message, requestDto.ContactInfo, requestDto.EvaluationStatus);
-            var response = await _productsService.AddUserRequest(request);
-            if (response == null)
-                return BadRequest();
+        
+            var checkProductExistance = _productsService.GetProductByIdAsync(request.ProductId);
+            if (checkProductExistance.Result == null)
+                return BadRequest("Product does not exist!");
             else
             {
-                await _productsService.UpdateProductAvailability(request.ProductId, false);
-                return Ok(response);
+                if (checkProductExistance.Result.isAvailable == false)
+                    return BadRequest("Product is unavailable!");
+                else
+                {
+                    var response = await _productsService.AddUserRequest(request);
+                    await _productsService.UpdateProductAvailability(request.ProductId, false);
+                    return Ok(response);
+                }
             }
-
+            return BadRequest();
         }
 
         [HttpPost]
