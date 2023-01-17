@@ -124,11 +124,11 @@ namespace reuse_be.Controllers
 
         [HttpPost]
         [Route("InsertDonationProduct")]
-        public async Task<ActionResult<Product>> InsertDonationProduct(DonationDTO newProduct, string ownerId)
+        public async Task<ActionResult<Product>> InsertDonationProduct(DonationDTO newProduct)
         {
-            if (newProduct == null || ownerId == null)
+            if (newProduct == null)
                 return BadRequest();
-            Product product = new Product(newProduct.Title1, newProduct.Description1, Category.Donations.ToString(), newProduct.Subcategory, true, newProduct.Image, ownerId);
+            Product product = new Product(newProduct.Title1, newProduct.Description1, Category.Donations.ToString(), newProduct.Subcategory, true, newProduct.Image, newProduct.ownerId);
             var response = await _productsService.InsertProductAsync(product);
             if (response != null)
                 return Ok(response);
@@ -137,11 +137,11 @@ namespace reuse_be.Controllers
 
         [HttpPost]
         [Route("InsertSwapProduct")]
-        public async Task<ActionResult<Product>> InsertSwapProduct(SwapDTO newProduct, string ownerId)
+        public async Task<ActionResult<Product>> InsertSwapProduct(SwapDTO newProduct)
         {
-            if (newProduct == null || ownerId == null)
+            if (newProduct == null)
                 return BadRequest();
-            Product product = new Product(newProduct.Title1, newProduct.Title2, newProduct.Description1, newProduct.Description2, Category.Swaps.ToString(), newProduct.Subcategory, true, newProduct.Image1, newProduct.Image2, ownerId);
+            Product product = new Product(newProduct.Title1, newProduct.Title2, newProduct.Description1, newProduct.Description2, Category.Swaps.ToString(), newProduct.Subcategory, true, newProduct.Image1, newProduct.Image2, newProduct.ownerId);
             var response = await _productsService.InsertProductAsync(product);
             if (response != null)
                 return Ok(response);

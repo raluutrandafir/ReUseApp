@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace reuse_be.DTO
 {
@@ -24,6 +25,9 @@ namespace reuse_be.DTO
         public byte[]? Image1 { get; set; } = new byte[0];
         [BsonElement]
         public byte[]? Image2 { get; set; } = new byte[0];
+
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ownerId { get; set; }
 
     }
 }

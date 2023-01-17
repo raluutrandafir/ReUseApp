@@ -6,6 +6,7 @@ namespace reuse_be.DTO
 {
     public class DonationDTO
     {
+       
         [BsonElement("title")]
         public string? Title1 { get; set; }
 
@@ -20,13 +21,17 @@ namespace reuse_be.DTO
         [BsonElement]
         public byte[]? Image { get; set; } = new byte[0];
 
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ownerId { get; set; }
 
-        public DonationDTO(string? title1, string? description1, string? subcategory, byte[]? image)
+
+        public DonationDTO(string? title1, string? description1, string? subcategory, byte[]? image, string ownerId)
         {
             Title1 = title1;
             Description1 = description1;
             Subcategory = subcategory;
             Image = image;
+            this.ownerId = ownerId;
         }
     }
 }
