@@ -17,10 +17,21 @@ namespace reuse_be.Controllers
         {
             userService = _userService;
         }
+
         [HttpGet]
-        public async Task<List<User>> GetUsers()
+        [Route("getusername")]
+        public async Task<ActionResult> GetUsername(string userId)
         {
-            return await userService.GetUsersAsync();
+            if (userId.Equals(""))
+            {
+                return BadRequest("You must provide a user id!");
+            }
+            var response = await userService.GetUserAsync(userId);
+            if(response == null)
+            {
+                return BadRequest("Invalid user id.");
+            }
+            return Ok(response);
         }
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult> GetUser(string id)
