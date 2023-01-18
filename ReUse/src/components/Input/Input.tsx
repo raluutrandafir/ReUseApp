@@ -35,7 +35,11 @@ export const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttrib
                 onChangeText,
                 onFocus,
                 onPress,
+                value,
+                password,
+                maxLength,
                 onSubmit,
+                placeHolderTextColor,
                 returnKeyType,
                 multiline,
                 label,
@@ -90,23 +94,30 @@ export const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttrib
             return (
                 <View style={{ marginBottom: 12 }}>
                     <Pressable onPress={handlePress} style={getContainerStyles()}>
-                        <View>
-                            <TextInput
-                                ref={ref}
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                inputAccessoryViewID="editor-bar"
-                                onBlur={handleBlur}
-                                onFocus={handleFocus}
-                                onSubmitEditing={onSubmit}
-                                onPressIn={onPress}
-                                style={styles.input}
-                                onChangeText={onChangeText}
-                                placeholder={label}
-                                returnKeyType={returnKeyType}
-                                multiline={multiline}
-                            />
-                        </View>
+                        {/* <View> */}
+                        <TextInput
+                            ref={ref}
+                            editable={!disabled}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            inputAccessoryViewID="editor-bar"
+                            onBlur={handleBlur}
+                            onFocus={handleFocus}
+                            onSubmitEditing={onSubmit}
+                            onPressIn={onPress}
+                            style={styles.input}
+                            value={value}
+                            maxLength={maxLength}
+                            secureTextEntry={password}
+                            onChangeText={onChangeText}
+                            placeholder={label}
+                            placeholderTextColor={
+                                placeHolderTextColor ? placeHolderTextColor : 'grey'
+                            }
+                            returnKeyType={returnKeyType}
+                            multiline={multiline}
+                        />
+                        {/* </View> */}
                     </Pressable>
                     {!!description && <Text style={styles.description}>{description}</Text>}
                 </View>

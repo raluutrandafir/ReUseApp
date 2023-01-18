@@ -85,7 +85,7 @@ export function RegisterScreen() {
 
     async function onSubmit({ adress, email, name, password, phoneNumber }: FormValues) {
         const data = await axios
-            .post('http://192.168.3.8:5000/User/register', {
+            .post('http://192.168.3.8:5000/api/user/register', {
                 Username: name,
                 Password: password,
                 Email: email,
@@ -99,13 +99,11 @@ export function RegisterScreen() {
 
         if (data) {
             reset();
-            console.log(data);
             navigation.navigate(Routes.Login);
         }
     }
 
     function handleGoBackPress() {
-        console.log('BA');
         navigation.goBack();
     }
 
@@ -124,12 +122,12 @@ export function RegisterScreen() {
     return (
         <>
             <View style={styles.screen}>
-                {/* <Pressable
+                <Pressable
                     onPress={handleGoBackPress}
-                    style={{ position: 'absolute', top: 40, left: 10 }}
+                    style={{ position: 'absolute', top: 40, left: 10, zIndex: 10 }}
                 >
                     <Text style={{ fontWeight: '500', fontStyle: 'italic' }}>Go back</Text>
-                </Pressable> */}
+                </Pressable>
                 <Lottie
                     loop={true}
                     style={styles.animation}

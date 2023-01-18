@@ -3,11 +3,16 @@ import React from 'react';
 import { createContext, useReducer, useContext } from 'react';
 import UserReducer, { initialState } from './UserReducer';
 
+import { useUserStore } from '../store/useUserStore';
+
 // const UserContext = createContext(initialState);
 const UserContext = createContext(initialState);
 
 export const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(UserReducer, initialState);
+
+    const setUserId = useUserStore((state) => state.setUserId);
+    const setUsername = useUserStore((state) => state.setUsername);
 
     const loginUser = async (loginPayload) => {
         dispatch({ type: 'LOGIN_REQUEST' });
@@ -23,10 +28,18 @@ export const UserProvider = ({ children }) => {
         //     },
         //     body: JSON.stringify(loginPayload)
         // };
-        let response = await axios.post('http://192.168.3.8:5000/user/authenticate', loginPayload);
+        let response = await axios.post(
+            'http://192.168.3.8:5000/api/user/authenticate',
+            loginPayload
+        );
 
+        if (response.data.userId.result === null) {
+            return null;
+        }
+        console.log(response.data.userId.result);
         let data = await response.data;
-        console.log(data.id);
+        setUserId(data.userId.result.id);
+        setUsername(data.userId.result.name);
         if (data) {
             // let userDetails = await fetch(`${ApiEndpoints.users.currentUser}`, {
             //     method: 'GET',
@@ -53,7 +66,7 @@ export const UserProvider = ({ children }) => {
                 // username: user.username,
                 // id: user.id,
                 // name: user.name
-                name: data.user.email
+                name: data.userId.result.email
             };
             dispatch({ type: 'LOGIN_SUCCESS', payload: payloadConstructed });
             return { payloadConstructed, error: false };

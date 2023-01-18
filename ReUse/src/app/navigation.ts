@@ -16,7 +16,15 @@ type StaticStackParams = {
     [Routes.Choose]: undefined;
     [Routes.ChooseScreen]: { type: 'donations' | 'swaps' };
     [Routes.ProductScreen]: { type: 'donations' | 'swaps'; optionId: string };
-    [Routes.Review]: { type?: 'add' | 'message' | 'donation' };
+    [Routes.Review]: {
+        type?: 'add' | 'submit' | 'evaluate';
+        productId?: string;
+        category?: 'swap' | 'donation';
+        optionId?: string;
+        messageId?: string;
+        contactInfo?: string;
+        requestMessage?: string;
+    };
 };
 
 export type RootStackParams = DynamicStackParams & StaticStackParams;

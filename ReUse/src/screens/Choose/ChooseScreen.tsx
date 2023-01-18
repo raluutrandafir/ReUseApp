@@ -61,10 +61,7 @@ export function ChooseScreen() {
                 style={styles.oprtionsGrid}
                 item={(option) => {
                     return (
-                        <OptionsGrid.Item
-                            data={option}
-                            onPress={() => handlePress(option.externalId)}
-                        />
+                        <OptionsGrid.Item data={option} onPress={() => handlePress(option.id)} />
                     );
                 }}
             />

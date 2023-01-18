@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Text, ImageBackground, Pressable, Keyboard, TextInput, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useForm, Controller } from 'react-hook-form';
@@ -25,6 +25,7 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export function LoginScreen() {
     const passwordRef = useRef<TextInput>(null);
+    const loginError = useRef(false);
 
     const driver = useSharedValue(0);
 
@@ -61,15 +62,14 @@ export function LoginScreen() {
     async function onSubmit({ email, password }: FormValues) {
         try {
             // navigation.navigate(Routes.Choose);
-            // let response: any = await loginUser({
-            //     login: email,
-            //     password: password
-            // });
-            // console.log('response ', response);
-            // if (response.error == true) {
-            //     console.log('MUIE');
-            //     return;
-            // }
+            let response: any = await loginUser({
+                login: email,
+                password: password
+            });
+            if (response === null) {
+                loginError.current = true;
+                throw new Error('Incorrect user credentials');
+            }
 
             navigation.navigate(Routes.Choose);
         } catch (error) {
@@ -83,6 +83,7 @@ export function LoginScreen() {
 
     function handleFocus() {
         driver.value = 1;
+        loginError.current = false;
     }
 
     function handleOutsidePress() {
@@ -176,6 +177,11 @@ export function LoginScreen() {
                     <Pressable style={styles.loginButton} onPress={handleSubmit(onSubmit)}>
                         <Text style={styles.button}>Log In</Text>
                     </Pressable>
+                    {loginError.current && (
+                        <Text style={{ color: 'red', fontStyle: 'italic' }}>
+                            Incorrect email or password
+                        </Text>
+                    )}
                     <Text style={{ color: '#ABB28D', position: 'absolute', bottom: 12 }}>
                         Don't have an account yet?
                         <Text style={{ fontWeight: '800' }} onPress={handleSignUpPress}>

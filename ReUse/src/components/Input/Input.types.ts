@@ -30,6 +30,7 @@ export interface InputProps {
     style?: StyleProp<ViewStyle>;
     value: string;
     returnKeyType?: ReturnKey;
+    placeHolderTextColor?: string;
     onChangeText?: (text: string) => void;
     onBlur?: () => void;
     onFocus?: () => void;
