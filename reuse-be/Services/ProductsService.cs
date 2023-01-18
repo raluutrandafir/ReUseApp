@@ -84,6 +84,7 @@ namespace reuse_be.Services
             if (product == null)
                 return null;
 
+
             await CreateProductAsync(product);
             return await Task.FromResult(product);
 
@@ -92,6 +93,18 @@ namespace reuse_be.Services
         public async Task<List<Request>> GetRequestsAsync() => await _requestsCollection.Find(_ => true).ToListAsync();
 
         public async Task<Request?> GetRequestByIdAsync(string id) => await _requestsCollection.Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+
+        public async Task<Boolean?> GetRequestStatusByIdAsync(string id)
+        {
+           var request = await _requestsCollection.Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            if (request == null)
+                return null;
+            else
+            {
+                return request.EvaluationStatus;
+            }
+        }
+        
         public async Task<List<Request>> GetRequestByUserIdAsync(string userId) => await _requestsCollection.Find(x => x.RequestorId.Equals(userId)).ToListAsync();
         public async Task<List<Request>> GetMessagesByUserIdAsync(string userId) => await _requestsCollection.Find(x => x.OwnerId.Equals(userId)).ToListAsync();
 

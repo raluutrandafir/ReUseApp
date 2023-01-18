@@ -31,14 +31,22 @@ namespace reuse_be.Controllers
             {
                 return BadRequest("Invalid user id.");
             }
-            return Ok(response);
+            return Ok(response.Username);
         }
-        [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult> GetUser(string id)
+
+        
+        [HttpGet]
+        [Route("getuserinfo")]
+        public async Task<ActionResult> GetUserInfo(string id)
         {
+            if(id == "")
+            {
+                return BadRequest("Please provide a valid id!");
+            }
             var user = await userService.GetUserAsync(id);
             return Json(user);
         }
+
         [AllowAnonymous]
         [Route("register")]
         [HttpPost]
@@ -53,7 +61,7 @@ namespace reuse_be.Controllers
                     return Json(user);
 
             }
-            return BadRequest();
+            return BadRequest("Something went wrong!");
         }
         [AllowAnonymous]
         [Route("authenticate")]
@@ -67,11 +75,11 @@ namespace reuse_be.Controllers
                     return Unauthorized();
                 else if (token.Equals("Error: Email"))
                 {
-                    return NotFound("Email");
+                    return NotFound("Email not valid!");
                 }
                 else if (token.Equals("Error: Password"))
                 {
-                    return NotFound("Password");
+                    return NotFound("Password not valid");
                 }
                 else
                 {
