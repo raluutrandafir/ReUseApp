@@ -204,6 +204,7 @@ namespace reuse_be.Controllers
 
         [HttpPost]
         [Route("submitMessageStatus")]
+        
         public async Task<IActionResult> submitMessageStatus(string requestID, bool evaluationStatus)
         {
             if (requestID == null)
@@ -221,6 +222,16 @@ namespace reuse_be.Controllers
                 return Ok(newRequest);
             }
            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("deleteRequestById")]
+
+        public async Task<IActionResult> deleteRequestById(string requestId)
+        {
+            if (requestId == "")
+                return BadRequest();
+            return Ok(await _productsService.RemoveRequestById(requestId));
         }
 
     }

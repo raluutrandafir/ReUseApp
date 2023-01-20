@@ -33,15 +33,15 @@ namespace reuse_be.Models
         [BsonElement("isAvailable")]
         public bool isAvailable { get; set; } = true;
         [BsonElement]
-        public byte[]? Image1  { get; set; } = new byte[0];
+        public string Image1  { get; set; }
         [BsonElement]
-        public byte[]? Image2 { get; set; } = new byte[0];
+        public string Image2 { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string? OwnerId { get; set; }
 
        
-        public Product(string _id, string _title, string _description, string _category, string _subcategory, bool _isAvailable, byte[] _image, string _ownerId)
+        public Product(string _id, string _title, string _description, string _category, string _subcategory, bool _isAvailable, string _image, string _ownerId)
         {
             Id = _id;
             Title1 = _title;
@@ -53,7 +53,7 @@ namespace reuse_be.Models
             OwnerId = _ownerId;
         }
 
-        public Product(string _title, string _description, string _category, string _subcategory, bool _isAvailable, byte[] _image, string _ownerId)
+        public Product(string _title, string _description, string _category, string _subcategory, bool _isAvailable, string _image, string _ownerId)
         { 
             Title1 = _title;
             Description1 = _description;
@@ -80,7 +80,7 @@ namespace reuse_be.Models
         /// <param name="image1"></param>
         /// <param name="image2"></param>
         /// <param name="ownerId"></param>
-        public Product(string? title1, string? title2, string? description1, string? description2, string? category, string? subcategory, bool isAvailable, byte[]? image1, byte[]? image2, string? ownerId)
+        public Product(string? title1, string? title2, string? description1, string? description2, string? category, string? subcategory, bool isAvailable, string image1, string image2, string? ownerId)
         {
             Title1 = title1;
             Title2 = title2;

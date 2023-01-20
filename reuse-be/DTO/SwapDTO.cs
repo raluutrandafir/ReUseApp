@@ -22,9 +22,9 @@ namespace reuse_be.DTO
         public string? Subcategory { get; set; }
 
         [BsonElement]
-        public byte[]? Image1 { get; set; } = new byte[0];
+        public string Image1 { get; set; } 
         [BsonElement]
-        public byte[]? Image2 { get; set; } = new byte[0];
+        public string Image2 { get; set; } 
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string ownerId { get; set; }

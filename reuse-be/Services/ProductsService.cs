@@ -79,6 +79,11 @@ namespace reuse_be.Services
         public async Task UpdateProductAsync(string id, Product updatedProduct) => await _productsCollection.ReplaceOneAsync(x => x.Id.Equals(id), updatedProduct);
         public async Task RemoveProductByIdAsync(string id) => await _productsCollection.DeleteOneAsync(x => x.Id.Equals(id));
 
+        public async Task<bool> RemoveRequestById(string id)
+        {
+            await RemoveRequestByIdAsync(id);
+            return true;
+        }
         public async Task<Product> InsertProductAsync(Product product)
         {
             if (product == null)

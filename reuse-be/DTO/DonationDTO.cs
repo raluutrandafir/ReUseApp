@@ -19,13 +19,13 @@ namespace reuse_be.DTO
         public string? Subcategory { get; set; }
 
         [BsonElement]
-        public byte[]? Image { get; set; } = new byte[0];
+        public string Image { get; set; } 
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string ownerId { get; set; }
 
 
-        public DonationDTO(string? title1, string? description1, string? subcategory, byte[]? image, string ownerId)
+        public DonationDTO(string? title1, string? description1, string? subcategory, string image, string ownerId)
         {
             Title1 = title1;
             Description1 = description1;
