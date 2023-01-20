@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Icons } from '../../environment/Icons';
 import { Routes } from '../../app/navigation';
+import { setAuthToken } from '../../context/UserContext';
+import axios from 'axios';
+import { useUserStore } from '../../store/useUserStore';
 
 interface Props {
     type: string;
@@ -14,6 +18,7 @@ interface Props {
     messageId: string;
     contactInfo: string;
     requestInfo: string;
+    requestorId: string;
 }
 
 export function MessageCard({
@@ -23,9 +28,13 @@ export function MessageCard({
     productId,
     messageId,
     contactInfo,
-    requestInfo
+    requestInfo,
+    requestorId
 }: Props) {
     const navigation = useNavigation();
+    const token = useUserStore((state) => state.token);
+    const [username, setUsername] = useState('');
+
     function handlePress(category: 'donation' | 'swap') {
         navigation.navigate(Routes.Review, {
             type: 'evaluate',
@@ -36,6 +45,21 @@ export function MessageCard({
             contactInfo: contactInfo
         });
     }
+
+    async function getRequestorUsername() {
+        if (token) {
+            setAuthToken(token);
+        }
+        const requestorUsername = await axios.get('http://192.168.3.8:5000/api/user/getuserinfo', {
+            params: { id: requestorId }
+        });
+
+        setUsername(requestorUsername.data.name);
+    }
+
+    useEffect(() => {
+        getRequestorUsername();
+    }, []);
 
     return type === 'Donations' ? (
         <Pressable
@@ -50,7 +74,7 @@ export function MessageCard({
         >
             <View style={{ flexDirection: 'row' }}>
                 <Icons.User />
-                <Text style={{ marginVertical: 8 }}>username</Text>
+                <Text style={{ marginVertical: 8 }}>{username}</Text>
                 <Text style={{ marginLeft: 13, marginVertical: 8 }}> Requested a Donation</Text>
             </View>
             <View>
@@ -70,7 +94,7 @@ export function MessageCard({
         >
             <View style={{ flexDirection: 'row' }}>
                 <Icons.User />
-                <Text style={{ marginVertical: 8 }}>username</Text>
+                <Text style={{ marginVertical: 8 }}>{username}</Text>
                 <Text style={{ marginLeft: 13, marginVertical: 8 }}> Requested an Exchange</Text>
             </View>
             <View style={{ flexDirection: 'column', alignSelf: 'center' }}>

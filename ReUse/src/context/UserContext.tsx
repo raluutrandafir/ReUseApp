@@ -8,35 +8,44 @@ import { useUserStore } from '../store/useUserStore';
 // const UserContext = createContext(initialState);
 const UserContext = createContext(initialState);
 
+export const setAuthToken = (token) => {
+    if (token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else delete axios.defaults.headers.common['Authorization'];
+};
+
 export const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(UserReducer, initialState);
 
     const setUserId = useUserStore((state) => state.setUserId);
     const setUsername = useUserStore((state) => state.setUsername);
+    const setToken = useUserStore((state) => state.setToken);
 
     const loginUser = async (loginPayload) => {
         dispatch({ type: 'LOGIN_REQUEST' });
+
         loginPayload = {
             email: loginPayload.login,
             password: loginPayload.password
         };
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'accept: text/plain',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(loginPayload)
-        // };
+
         let response = await axios.post(
             'http://192.168.3.8:5000/api/user/authenticate',
             loginPayload
         );
 
+        if (response.data.result === 'Error: Password') {
+            return null;
+        }
+
         if (response.data.userId.result === null) {
             return null;
         }
-        console.log(response.data.userId.result);
+        // console.log(response.data.result);
+        if (response.data.result) {
+            setToken(response.data.result);
+            setAuthToken(response.data.result);
+        }
         let data = await response.data;
         setUserId(data.userId.result.id);
         setUsername(data.userId.result.name);

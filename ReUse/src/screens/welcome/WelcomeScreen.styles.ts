@@ -17,7 +17,7 @@ export default StyleSheet.create({
         fontSize: 40,
         fontWeight: '600',
         fontStyle: 'italic',
-        marginTop: 400,
+        // marginTop: 400,
         color: '#DBCAAA',
         alignSelf: 'center'
     },
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     },
     signIn: {
         alignSelf: 'center',
-        marginTop: 250,
+        // marginTop: 250,
         fontWeight: '600',
         fontSize: 24,
         color: '#ABB28D'

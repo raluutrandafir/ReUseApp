@@ -7,12 +7,16 @@ import { Text, View, Pressable, ImageBackground, ScrollView } from 'react-native
 import { useForm, Controller } from 'react-hook-form';
 import RadioGroup from 'react-native-radio-buttons-group';
 import ToggleSwitch from 'toggle-switch-react-native';
+import { launchImageLibrary, ImageLibraryOptions } from 'react-native-image-picker';
 
 import { RootStackParams, Routes } from '../../app/navigation';
 import { useUserStore } from '../../store/useUserStore';
 import { Input } from '../../components';
 import axios from 'axios';
 import { Icons } from '../../environment/Icons';
+import { S3 } from 'aws-sdk';
+import { decode } from 'base64-arraybuffer';
+import { Images } from '../../environment/Images';
 
 export type ReviewScreenRouteType = RouteProp<RootStackParams, Routes.Review>;
 
@@ -40,6 +44,8 @@ interface FormValues {
 }
 
 export function ReviewScreen() {
+    const userName = useUserStore((state) => state.userUsername);
+
     const route = useRoute<ReviewScreenRouteType>();
     const type = route.params.type;
     const category = route.params.category;
@@ -50,6 +56,8 @@ export function ReviewScreen() {
     const [product, setProduct] = useState<Product>();
     const [pageType, setPageType] = useState('Donation');
     const [isOn, setIsOn] = useState(false);
+    const [showPopUp, setShowPopUp] = useState(false);
+    const [imageUrl, setImageUrl] = useState('');
 
     const [radioButtons, setRadioButtons] = useState([
         {
@@ -94,6 +102,65 @@ export function ReviewScreen() {
         }
     });
 
+    const uploadImageOnS3 = async (file) => {
+        const s3bucket = new S3({
+            accessKeyId: 'AKIA6BITGTW2DMKZQ5OZ',
+            secretAccessKey: '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',
+            //   Bucket: 'reuseapp',
+            region: 'eu-central-1'
+        });
+        let contentType = 'image/jpeg';
+        let contentDeposition = 'inline;filename="' + file.name + '"';
+        const base64 = file.base64;
+        const arrayBuffer = decode(base64);
+
+        s3bucket.createBucket(() => {
+            const params = {
+                Bucket: 'reuseapp',
+                Key: file.name,
+                Body: arrayBuffer,
+                ContentDisposition: contentDeposition,
+                ContentType: contentType
+            };
+
+            s3bucket.upload(params, (err, data) => {
+                if (err) {
+                    console.log('Error uploading');
+                }
+                console.log(data);
+                console.log('success');
+                console.log('Respomse URL : ' + data.Location);
+                setImageUrl(data.Location);
+            });
+        });
+    };
+
+    const launchNative = () => {
+        let options: ImageLibraryOptions = {
+            includeBase64: true,
+            mediaType: 'photo'
+        };
+
+        launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('User Canceled image picker');
+            } else if (response.errorCode) {
+                console.log('Image Picker error', response.errorMessage);
+            } else {
+                if (response.assets) {
+                    const file = {
+                        uri: response.assets[0].uri,
+                        name: response.assets[0].fileName,
+                        type: 'image/jpeg',
+                        base64: response.assets[0].base64
+                    };
+
+                    uploadImageOnS3(file);
+                }
+            }
+        });
+    };
+
     function handleGoBackPress() {
         navigation.goBack();
     }
@@ -125,7 +192,7 @@ export function ReviewScreen() {
                     title1: donationTitle,
                     description1: donationDescription,
                     subcategory: subcategory,
-                    image: null,
+                    image: imageUrl,
                     ownerId: userId
                 }
             );
@@ -213,6 +280,14 @@ export function ReviewScreen() {
         }
     }
 
+    function handleProfilePress() {
+        setShowPopUp(!showPopUp);
+    }
+
+    function handleLogoutPress() {
+        navigation.navigate(Routes.Welcome);
+    }
+
     useEffect(() => {
         if (type !== 'add') {
             getProduct();
@@ -234,12 +309,52 @@ export function ReviewScreen() {
             >
                 <Text style={{ fontWeight: '500', fontStyle: 'italic' }}>Go back</Text>
             </Pressable>
+            <Pressable
+                onPress={handleProfilePress}
+                style={{
+                    position: 'absolute',
+                    top: 40,
+                    zIndex: 100,
+                    right: 0,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                }}
+            >
+                <Text>{userName}</Text>
+                <Icons.User style={{ marginRight: 20 }} />
+            </Pressable>
+            {showPopUp && (
+                <View
+                    style={{
+                        position: 'absolute',
+                        top: 80,
+                        right: 10,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        backgroundColor: '#F9F8F6',
+                        height: 40,
+                        width: 100,
+                        zIndex: 100,
+                        borderWidth: 1,
+                        shadowOpacity: 1,
+                        shadowOffset: { width: 1, height: 1 },
+                        shadowColor: 'grey'
+                    }}
+                >
+                    <Pressable
+                        onPress={handleLogoutPress}
+                        style={{ width: '100%', alignItems: 'center' }}
+                    >
+                        <Text style={{ fontStyle: 'italic', fontWeight: '500' }}>Log Out</Text>
+                    </Pressable>
+                </View>
+            )}
             {type !== 'add' && (
                 <View>
                     <Text
                         style={{
                             alignSelf: 'center',
-                            marginTop: 50,
+                            marginTop: 70,
                             fontSize: 25,
                             fontWeight: '600',
                             color: '#ABB28D'
@@ -250,7 +365,7 @@ export function ReviewScreen() {
                 </View>
             )}
             {type === 'add' && (
-                <View style={{ alignItems: 'center', marginTop: 50 }}>
+                <View style={{ alignItems: 'center', marginTop: 70 }}>
                     <RadioGroup
                         layout="row"
                         radioButtons={radioButtons}
@@ -433,7 +548,7 @@ export function ReviewScreen() {
                                 </Pressable>
                             </View>
                         )}
-                        <View style={{ height: 100 }} />
+                        <View style={{ height: 200 }} />
                     </ScrollView>
                 ) : (
                     <>
@@ -578,17 +693,43 @@ export function ReviewScreen() {
             </View>
             {type === 'add' && pageType === 'Donation' ? (
                 <View>
-                    {/* <View
+                    <View
                         style={[
                             {
                                 marginTop: 24,
                                 width: '100%',
                                 height: 223,
                                 backgroundColor: '#EBE3D3',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                justifyContent: 'center'
                             }
                         ]}
-                    ></View> */}
+                    >
+                        <Pressable
+                            style={{
+                                width: 250,
+                                height: 170,
+                                backgroundColor: '#D9D9D9',
+                                justifyContent: 'center'
+                            }}
+                            onPress={launchNative}
+                        >
+                            <ImageBackground
+                                source={
+                                    imageUrl
+                                        ? {
+                                              uri: imageUrl
+                                          }
+                                        : Images.AddImage
+                                }
+                                style={{
+                                    height: imageUrl ? 170 : 100,
+                                    width: imageUrl ? 250 : 100,
+                                    alignSelf: 'center'
+                                }}
+                            />
+                        </Pressable>
+                    </View>
                     <Controller
                         control={control}
                         name="donationTitle"

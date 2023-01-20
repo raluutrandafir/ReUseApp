@@ -33,14 +33,14 @@ export function WelcomeScreen({ type = 'Welcome' }: Props) {
                 <Text style={styles.description}>{description}</Text>
             </View>
             {type === 'Welcome' ? (
-                <>
-                    <Pressable onPress={handleTitlePress}>
+                <View>
+                    <Pressable style={{ marginTop: 400 }} onPress={handleTitlePress}>
                         <Text style={styles.title}>Reuse</Text>
                     </Pressable>
-                    <Pressable onPress={handleSignInPress}>
+                    <Pressable style={{ marginTop: 250 }} onPress={handleSignInPress}>
                         <Text style={styles.signIn}>Sign in</Text>
                     </Pressable>
-                </>
+                </View>
             ) : (
                 <View style={styles.cardsContainer}>
                     <Pressable

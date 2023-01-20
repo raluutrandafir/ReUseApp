@@ -1,8 +1,10 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Text, View, ScrollView, Pressable } from 'react-native';
 import axios from 'axios';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import Lottie from 'lottie-react-native';
 
 import { Routes, RootStackParams } from '../../app/navigation';
 import { Product } from '../../components/Product';
@@ -10,6 +12,7 @@ import { Footer } from '../../components/Footer';
 import { RequestCard } from '../../components/RequestCard';
 import { MessageCard } from '../../components/MessageCard';
 import { useUserStore } from '../../store/useUserStore';
+import { Icons } from '../../environment/Icons';
 
 export type ProductsScreenRouteType = RouteProp<RootStackParams, Routes.ProductScreen>;
 
@@ -40,6 +43,7 @@ interface Request {
     category: string;
     contactInfo: string;
     message: string;
+    requestorId: string;
 }
 
 interface MessageInfo {
@@ -47,6 +51,7 @@ interface MessageInfo {
     productId: string;
     contactInfo: string;
     contactMessage: string;
+    requestorId: string;
 }
 
 // dotnet run --urls "http://192.168.3.8:5000/"
@@ -62,8 +67,10 @@ export function ProductScreen() {
     const requestId = useRef<RequestInfo[]>([]);
     const [title, setTitle] = useState('');
     const navigation = useNavigation();
+    const [showPopUp, setShowPopUp] = useState(false);
 
     const userID = useUserStore((state) => state.userId);
+    const userName = useUserStore((state) => state.userUsername);
 
     async function getProducts() {
         const response = await axios.get('http://192.168.3.8:5000/api/products/getallproducts', {
@@ -134,7 +141,8 @@ export function ProductScreen() {
                 id: item.id,
                 productId: item.productId,
                 contactInfo: item.contactInfo,
-                contactMessage: item.message
+                contactMessage: item.message,
+                requestorId: item.requestorId
             });
             const result = await getRequestProduct(item.productId);
             setMyMessages((myMessages) => [...myMessages, result]);
@@ -155,8 +163,16 @@ export function ProductScreen() {
         navigation.goBack();
     }
 
+    function handleProfilePress() {
+        setShowPopUp(!showPopUp);
+    }
+
     function handlePlusPress() {
         navigation.navigate(Routes.Review, { type: 'add', optionId: route.params.optionId });
+    }
+
+    function handleLogoutPress() {
+        navigation.navigate(Routes.Welcome);
     }
 
     function mainPage() {
@@ -205,6 +221,45 @@ export function ProductScreen() {
                 >
                     <Text style={{ fontWeight: '500', fontStyle: 'italic' }}>Go back</Text>
                 </Pressable>
+                <Pressable
+                    onPress={handleProfilePress}
+                    style={{
+                        position: 'absolute',
+                        top: 40,
+                        right: 0,
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}
+                >
+                    <Text>{userName}</Text>
+                    <Icons.User style={{ marginRight: 20 }} />
+                </Pressable>
+                {showPopUp && (
+                    <View
+                        style={{
+                            position: 'absolute',
+                            top: 80,
+                            right: 10,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            backgroundColor: '#F9F8F6',
+                            height: 40,
+                            width: 100,
+                            zIndex: 100,
+                            borderWidth: 1,
+                            shadowOpacity: 1,
+                            shadowOffset: { width: 1, height: 1 },
+                            shadowColor: 'grey'
+                        }}
+                    >
+                        <Pressable
+                            onPress={handleLogoutPress}
+                            style={{ width: '100%', alignItems: 'center' }}
+                        >
+                            <Text style={{ fontStyle: 'italic', fontWeight: '500' }}>Log Out</Text>
+                        </Pressable>
+                    </View>
+                )}
                 <Text style={{ marginTop: 60, fontSize: 25, fontWeight: '600', color: '#ABB28D' }}>
                     {title}
                 </Text>
@@ -251,7 +306,6 @@ export function ProductScreen() {
                     <ScrollView style={{ width: '100%' }}>
                         {myMessages.map((item: Request, index) => {
                             const messageId = id.current.find((d) => d.productId === item.id);
-
                             return (
                                 <MessageCard
                                     key={index}
@@ -262,6 +316,7 @@ export function ProductScreen() {
                                     productId={item.id}
                                     contactInfo={messageId!.contactInfo}
                                     requestInfo={messageId!.contactMessage}
+                                    requestorId={messageId!.requestorId}
                                 />
                             );
                         })}

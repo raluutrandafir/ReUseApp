@@ -15,5 +15,6 @@ export const Images = {
     Handmade: require('./Images/handmade.png'),
     Auto: require('./Images/auto.png'),
     Sports: require('./Images/sports.png'),
-    Music: require('./Images/Music.png')
+    Music: require('./Images/Music.png'),
+    AddImage: require('./Images/addImage.png')
 };

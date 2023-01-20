@@ -66,6 +66,7 @@ export function LoginScreen() {
                 login: email,
                 password: password
             });
+
             if (response === null) {
                 loginError.current = true;
                 throw new Error('Incorrect user credentials');

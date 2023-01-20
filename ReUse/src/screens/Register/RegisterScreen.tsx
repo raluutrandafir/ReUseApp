@@ -250,6 +250,7 @@ export function RegisterScreen() {
                                         handleBlur();
                                         onBlur();
                                     }}
+                                    maxLength={15}
                                     ref={nameRef}
                                     onChangeText={onChange}
                                     onFocus={handleFocus}

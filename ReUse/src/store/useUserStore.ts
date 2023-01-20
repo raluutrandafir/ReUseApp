@@ -6,6 +6,8 @@ type userUsername = string;
 type State = {
     userId: userId;
     userUsername: userUsername;
+    token: string;
+    setToken: (string) => void;
     setUserId: (newUserId: userId) => void;
     setUsername: (usermane: userUsername) => void;
     resetUserId: () => void;
@@ -14,6 +16,10 @@ type State = {
 const useUserStore = create<State>((set) => ({
     userId: null,
     userUsername: '',
+    token: '',
+    setToken: (token) => {
+        set(() => ({ token: token }));
+    },
     setUserId: (newUserId) => {
         set(() => ({ userId: newUserId }));
     },
@@ -21,7 +27,7 @@ const useUserStore = create<State>((set) => ({
         set(() => ({ userUsername: username }));
     },
     resetUserId: () => {
-        set(() => ({ userId: null }));
+        set(() => ({ userId: null, userUsername: '', token: '' }));
     }
 }));
 
