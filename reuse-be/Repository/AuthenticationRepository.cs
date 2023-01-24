@@ -30,6 +30,7 @@ namespace reuse_be.Repository
             CreatePasswordHash(registerRequest.Password, out byte[] passwordHash, out byte[] passwordSalt);
             newUser.PasswordHash = passwordHash;
             newUser.PasswordSalt = passwordSalt;
+            newUser.Address = registerRequest.Address;
 
             return Task.FromResult(newUser);
         }

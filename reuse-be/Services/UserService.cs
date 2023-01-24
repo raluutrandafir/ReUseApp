@@ -53,6 +53,7 @@ namespace reuse_be.Services
             if (currentUser != null)
             {
                 var newUser = authRepository.Register(registerRequest);
+                newUser.Result.Id = userId;
                 if (newUser != null)
                 {
                     await UpdateUserAsync(userId, newUser.Result);
