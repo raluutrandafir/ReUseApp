@@ -19,9 +19,7 @@ namespace reuse_be.Models
         public string? Name { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
-
-        //public List<Request> Requests { get; set; } = new List<Request>();
-        //public List<Request> Messages { get; set; } = new List<Request> ();
+        public int Points { get; set; } = 0;
 
         public User()
         {

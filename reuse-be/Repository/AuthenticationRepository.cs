@@ -14,6 +14,13 @@ namespace reuse_be.Repository
     public class AuthenticationRepository
     {
         private readonly IConfiguration? configurationAccessor;
+
+        public Task<(byte[] passwordHash, byte[] passwordSal)> UpdatePassword(string password)
+        {
+            
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+            return Task.FromResult((passwordHash, passwordSalt));
+        }
         public Task<User> Register(RegisterRequest registerRequest)
         {
             User newUser = new User();

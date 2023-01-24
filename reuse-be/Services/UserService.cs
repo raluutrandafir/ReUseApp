@@ -37,6 +37,32 @@ namespace reuse_be.Services
         public async Task UpdateUserAsync(string id, User updatedUser) => await _usersCollection.ReplaceOneAsync(x => x.Id == id, updatedUser);
         public async Task RemoveUserAsync(string id) => await _usersCollection.DeleteOneAsync(x => x.Id == id);
 
+        public async Task UpdateUserPoints(string userId, int pointsAdded)
+        {
+            var user = _usersCollection.Find(x => x.Id == userId).FirstOrDefaultAsync().Result;
+            if(user != null)
+            {
+                user.Points += pointsAdded;
+                await UpdateUserAsync(userId, user);
+            }
+        }
+
+        public async Task<string> UpdateUserProfile(string userId, RegisterRequest registerRequest)
+        {
+            var currentUser = _usersCollection.Find(x => x.Id == userId).FirstOrDefaultAsync().Result;
+            if (currentUser != null)
+            {
+                var newUser = authRepository.Register(registerRequest);
+                if (newUser != null)
+                {
+                    await UpdateUserAsync(userId, newUser.Result);
+                    return await Task.FromResult(JsonSerializer.Serialize(newUser));
+
+                }
+                return null;
+            }
+            return null;
+        }
 
         public async Task<string> RegisterUserAsync(RegisterRequest registerRequest)
         {

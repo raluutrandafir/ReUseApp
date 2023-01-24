@@ -20,6 +20,7 @@ builder.Services.Configure<DatabaseSettings>(
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("JwtKey"));
 builder.Services.AddSingleton<ProductsService>();
 builder.Services.AddSingleton<UserService>();
+builder.Services.BuildServiceProvider();
 //builder.Services.AddSingleton<RequestsService>();
 builder.Services.AddControllers();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);

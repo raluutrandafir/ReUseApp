@@ -31,7 +31,7 @@ namespace reuse_be.Controllers
             {
                 return BadRequest("Invalid user id.");
             }
-            return Ok(response.Username);
+            return Ok(response);
         }
 
         
@@ -45,6 +45,23 @@ namespace reuse_be.Controllers
             }
             var user = await userService.GetUserAsync(id);
             return Json(user);
+        }
+
+        [HttpPost]
+        [Route("updateuserprofile")]
+
+        public async Task<ActionResult> UpdateUserProfile(string userId, RegisterRequest registerRequest)
+        {
+            if (userId == "")
+                return BadRequest("Please provide avalid Id");
+            else
+            {
+                var newUser = await userService.UpdateUserProfile(userId, registerRequest);
+                if (newUser == null)
+                    return BadRequest("Could not update user profile");
+                return Ok(newUser);
+            }
+            return BadRequest("Something went wrong!");
         }
 
         [AllowAnonymous]

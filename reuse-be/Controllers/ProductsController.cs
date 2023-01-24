@@ -14,9 +14,15 @@ namespace reuse_be.Controllers
     [AllowAnonymous]
     public class ProductsController : ControllerBase
     {
+        
         private readonly ProductsService _productsService;
+        private readonly UserService _userService;
 
-        public ProductsController(ProductsService productsService) => _productsService = productsService;
+        public ProductsController(ProductsService productsService, UserService userService)
+        {
+            _productsService = productsService;
+            _userService = userService;
+        } 
 
 
         //[HttpGet]
@@ -149,7 +155,14 @@ namespace reuse_be.Controllers
             Product product = new Product(newProduct.Title1, newProduct.Description1, Category.Donations.ToString(), subcategory, true, newProduct.Image, newProduct.ownerId);
             var response = await _productsService.InsertProductAsync(product);
             if (response != null)
-                return Ok(response);
+            {
+                var userId = response.OwnerId;
+                if (userId != null && !userId.Equals(String.Empty))
+                {
+                    await _userService.UpdateUserPoints(userId, 10); //10 points for adding a donation
+                    return Ok(response);
+                }
+            }
             return BadRequest("Request failed due to unforseen events!");
         }
 
@@ -169,7 +182,15 @@ namespace reuse_be.Controllers
             
             var response = await _productsService.InsertProductAsync(product);
             if (response != null)
-                return Ok(response);
+            {
+                
+                var userId = response.OwnerId;
+                if (userId!= null && !userId.Equals(String.Empty))
+                {
+                    await _userService.UpdateUserPoints(userId, 5); //5 points for adding a donation
+                    return Ok(response);
+                }
+            }
             return BadRequest("Request failed due to unforseen events!");
         }
 
